@@ -1,5 +1,6 @@
 
 import csv
+import logging
 import RPi.GPIO as GPIO
 import serial
 import string
@@ -27,6 +28,12 @@ class HodorWatcher:
         self._port = serial.Serial("/dev/serial0",baudrate=115200,timeout=1.0)
         self._cycles = 0
         self._strobe_seconds = 10
+        # setup logging
+        FORMAT='%(asctime)-15s %(message)s'
+        # logging.basicConfig(FORMAT)
+        logging.basicConfig(filename='/home/pi/log/hodor_watcher.log',level=logging.INFO,format=FORMAT)
+        self._logger = logging.getLogger('hodor_watcher')
+
 
     def strobe_access(self):
         GPIO.output(16,GPIO.HIGH)
@@ -58,17 +65,21 @@ class HodorWatcher:
             rcv = self._port.readline(100)
 	    if len(rcv) > 0:
                 sys.stdout.write("\nreceived : {0}\n".format(repr(rcv)))
-                clean_rcv = rcv.strip()
+                clean_rcv = rcv.strip().upper()
                 if clean_rcv in everyone:
                     dude = everyone[clean_rcv]
                     print("Recognized {0} ({1})".format(dude['NAME'],dude['KEY']))
+                    self._logger.info("Recognized {0} ({1})".format(dude['NAME'],dude['KEY']))
                     if dude['ALLOW'] == 'y':
                         print("ACCESS GRANTED TO: {0} ({1})".format(dude['NAME'],dude['KEY']))
+                        self._logger.info("ACCESS GRANTED TO: {0} ({1})".format(dude['NAME'],dude['KEY']))
                         self.strobe_access()
                     else:
                         print("DENYING {0} ({1})".format(dude['NAME'],dude['KEY']))
+                        self._logger.info("DENYING {0} ({1})".format(dude['NAME'],dude['KEY']))
                 else:
                     print("Unrecognized key {0}".format(clean_rcv))
+                    self._logger.info("Unrecognized key {0}".format(clean_rcv))
             sys.stdout.flush()
 
 def main():
