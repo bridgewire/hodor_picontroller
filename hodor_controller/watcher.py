@@ -1,6 +1,7 @@
 
 import csv
 import logging
+import re
 import RPi.GPIO as GPIO
 import serial
 import string
@@ -25,9 +26,9 @@ class HodorWatcher:
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(16,GPIO.OUT)
         # setup serial port
-        self._port = serial.Serial("/dev/serial0",baudrate=115200,timeout=1.0)
+        self._port = serial.Serial("/dev/serial0",baudrate=9600,timeout=1.0)
         self._cycles = 0
-        self._strobe_seconds = 10
+        self._strobe_seconds = 5
         # setup logging
         FORMAT='%(asctime)-15s %(message)s'
         # logging.basicConfig(FORMAT)
@@ -48,7 +49,8 @@ class HodorWatcher:
             user_array.append(ro)
         users = {}
         for u in user_array:
-            users[u['KEY']] = u
+            matchkey = re.sub(r'-','',u['KEY'])
+            users[matchkey] = u
         fh.close()
         return users
 
@@ -63,9 +65,10 @@ class HodorWatcher:
                 self._cycles = 0
                 print('')
             rcv = self._port.readline(100)
-	    if len(rcv) > 0:
+	    if len(rcv) > 0 and rcv != '\x03':
                 sys.stdout.write("\nreceived : {0}\n".format(repr(rcv)))
-                clean_rcv = rcv.strip().upper()
+                # to clean out whitespace, XON/XOFF flow control chars
+                clean_rcv = re.sub(r'[\002\003]','',rcv.strip().upper())
                 if clean_rcv in everyone:
                     dude = everyone[clean_rcv]
                     print("Recognized {0} ({1})".format(dude['NAME'],dude['KEY']))
