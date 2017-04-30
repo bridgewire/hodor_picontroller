@@ -41,3 +41,27 @@ class TestHodorWatcher(unittest.TestCase):
         expect_user2 = testdb1['02BLAH']
         self.assertEqual(self._ap.find_user(testdb1,'02BLAH'),expect_user2)
         self.assertEqual(self._ap.find_user(testdb1,'02blah'),expect_user2)
+
+    def test_eval_access(self):
+        testdb1 = {
+            '13': {'ALLOW': '', 'NAME': 'Whoever', 'KEY': '1-3'},
+            '0101': {'ALLOW': 'y', 'NAME': 'Alice Blogs', 'KEY': '01-01'},
+            '02BLAH': {'ALLOW': 'n', 'NAME': 'Foo Bar', 'KEY': '02-blah'}
+        }
+        grant1, user1 = self._ap.eval_access(testdb1,'not_in_db')
+        self.assertEqual(grant1,False)
+        self.assertEqual(user1,None)
+        grant2, user2 = self._ap.eval_access(testdb1,'02blah')
+        self.assertEqual(grant2,False)
+        self.assertEqual(user2,{
+            'KEY': '02-blah',
+            'NAME': 'Foo Bar',
+            'ALLOW': 'n'
+        })
+        grant3, user3 = self._ap.eval_access(testdb1,'0101')
+        self.assertEqual(grant3,True)
+        self.assertEqual(user3,{
+            'KEY': '01-01',
+            'NAME': 'Alice Blogs',
+            'ALLOW': 'y'
+        })

@@ -119,6 +119,20 @@ class HodorWatcher:
             the_user = user_database[match_key]
         return the_user
 
+    def eval_access(self,user_database,presented_key):
+        """Checks presented_key against user_database for access grant.
+
+        Returns two arguments: grant_info and user_info.  The grant_info
+        value is a boolean value which is true if the user is allowed to
+        enter.  The user_info value is a structure with user name and
+        key information.
+        """
+        user_info = self.find_user(user_database,presented_key)
+        grant_info = False
+        if user_info is not None and user_info['ALLOW'].lower() == 'y':
+            grant_info = True
+        return grant_info, user_info
+
     def console_write(msg):
         sys.stdout.write(msg)
 
@@ -131,10 +145,6 @@ class HodorWatcher:
 
     def run_main(self,arglist=None):
         self.process_arguments(arglist)
-        keydb_fh = open(self._acl_path)
-        everyone = self.readdb(keydb_fh)
-        keydb_fh.close()
-        print(repr(everyone))
         while True:
             self.console_write('.')
             self._cycles += 1
@@ -145,15 +155,18 @@ class HodorWatcher:
             clean_rcv = self.scan_for_key(100)
             if clean_rcv is not None:
                 self.console_write("\nreceived : {0}\n".format(repr(rcv)))
-                # to clean out whitespace, XON/XOFF flow control chars
-                dude = self.find_user(everyone,clean_rcv)
+                # read the ACL database and try to match the key
+                keydb_fh = open(self._acl_path)
+                everyone = self.readdb(keydb_fh)
+                keydb_fh.close()
+                access_ok, dude = self.eval_access(everyone,clean_rcv)
                 if dude is None:
                     self.console("Unrecognized key {0}".format(clean_rcv))
                     self.log("Unrecognized key {0}".format(clean_rcv))
                 else:
                     self.console("Recognized {0} ({1})".format(dude['NAME'],dude['KEY']))
                     self.log("Recognized {0} ({1})".format(dude['NAME'],dude['KEY']))
-                    if dude['ALLOW'] == 'y':
+                    if access_ok:
                         self.console("ACCESS GRANTED TO: {0} ({1})".format(dude['NAME'],dude['KEY']))
                         self.log("ACCESS GRANTED TO: {0} ({1})".format(dude['NAME'],dude['KEY']))
                         self.strobe_access()
