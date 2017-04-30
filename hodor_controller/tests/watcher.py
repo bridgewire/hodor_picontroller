@@ -1,5 +1,6 @@
 
 from hodor_controller.watcher import HodorWatcher
+import os
 import StringIO
 import tempfile
 import unittest
@@ -41,6 +42,28 @@ class TestHodorWatcher(unittest.TestCase):
         expect_user2 = testdb1['02BLAH']
         self.assertEqual(self._ap.find_user(testdb1,'02BLAH'),expect_user2)
         self.assertEqual(self._ap.find_user(testdb1,'02blah'),expect_user2)
+
+    def test_event_fname(self):
+        ref_tstamp = '2001-01-01_123456'
+        fn1 = self._ap.event_fname(set_tstamp=ref_tstamp)
+        fn2 = self._ap.event_fname(set_tstamp=ref_tstamp)
+        expect_pid = '{0:06d}'.format(os.getpid())
+        expect_fn1 = '{0}_{1}_000000.event'.format(ref_tstamp,expect_pid)
+        expect_fn2 = '{0}_{1}_000001.event'.format(ref_tstamp,expect_pid)
+        self.assertEqual(fn1,expect_fn1)
+        self.assertEqual(fn2,expect_fn2)
+
+    def test_write_event(self):
+        ref_tstamp = '2001-01-01_123456'
+        expect_pid = '{0:06d}'.format(os.getpid())
+        got1 = self._ap.write_event('event1')
+        got2 = self._ap.write_event('event2')
+        self.assertEqual(os.path.exists(got1),True)
+        text1 = file(got1).read()
+        self.assertEqual(text1,'event1')
+        self.assertEqual(os.path.exists(got2),True)
+        text2 = file(got2).read()
+        self.assertEqual(text2,'event2')
 
     def test_eval_access(self):
         testdb1 = {

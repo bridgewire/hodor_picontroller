@@ -32,6 +32,7 @@ class HodorWatcher:
         # setup serial port
         self._port = None
         self._serial_setup()
+        self._event_seqnum = 0
         self._cycles = 0
         self._strobe_seconds = 5
         self._rootdir = os.environ['HOME']
@@ -143,6 +144,24 @@ class HodorWatcher:
         if self._logger is not None:
             self._logger.info(msg,*args,**kwargs)
 
+    def event_fname(self,set_tstamp=None):
+        tstamp = time.strftime('%Y-%m-%d_%H%M%S')
+        if set_tstamp is not None:
+            tstamp = set_tstamp
+        pidstamp = '{0:06d}'.format(os.getpid())
+        enumstamp = '{0:06d}'.format(self._event_seqnum)
+        self._event_seqnum += 1
+        out = '{0}_{1}_{2}.event'.format(tstamp,pidstamp,enumstamp)
+        return out
+
+    def write_event(self,msg):
+        base_fname = self.event_fname()
+        ev_path = os.path.join(self._event_q_dir,base_fname)
+        fh = open(ev_path,'w')
+        fh.write(msg)
+        fh.close()
+        return ev_path
+
     def run_main(self,arglist=None):
         self.process_arguments(arglist)
         while True:
@@ -161,18 +180,31 @@ class HodorWatcher:
                 keydb_fh.close()
                 access_ok, dude = self.eval_access(everyone,clean_rcv)
                 if dude is None:
-                    self.console("Unrecognized key {0}".format(clean_rcv))
-                    self.log("Unrecognized key {0}".format(clean_rcv))
+                    unrec_msg = "Unrecognized key {0}".format(clean_rcv)
+                    self.console(unrec_msg)
+                    self.log(unrec_msg)
                 else:
-                    self.console("Recognized {0} ({1})".format(dude['NAME'],dude['KEY']))
-                    self.log("Recognized {0} ({1})".format(dude['NAME'],dude['KEY']))
+                    recognize_msg = "Recognized {0} ({1})".format(
+                        dude['NAME'],
+                        dude['KEY']
+                    )
+                    self.console(recognize_msg)
+                    self.log(recognize_msg)
                     if access_ok:
-                        self.console("ACCESS GRANTED TO: {0} ({1})".format(dude['NAME'],dude['KEY']))
-                        self.log("ACCESS GRANTED TO: {0} ({1})".format(dude['NAME'],dude['KEY']))
+                        grant_msg = "ACCESS GRANTED TO: {0} ({1})".format(
+                            dude['NAME'],
+                            dude['KEY']
+                        )
+                        self.console(grant_msg)
+                        self.log(grant_msg)
                         self.strobe_access()
                     else:
-                        self.console("DENYING {0} ({1})".format(dude['NAME'],dude['KEY']))
-                        self.log("DENYING {0} ({1})".format(dude['NAME'],dude['KEY']))
+                        deny_msg = "DENYING {0} ({1})".format(
+                            dude['NAME'],
+                            dude['KEY']
+                        )
+                        self.console(deny_msg)
+                        self.log(deny_msg)
             sys.stdout.flush()
 
 def main():
