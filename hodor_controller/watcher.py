@@ -1,6 +1,7 @@
 
 import csv
 import logging
+import os
 import re
 import string
 import sys
@@ -26,20 +27,36 @@ except ImportError:
 
 class HodorWatcher:
 
-    def __init__(self,test_mode=False):
+    def __init__(self,rootdir,test_mode=False):
         self._gpio_setup()
         # setup serial port
         self._port = None
         self._serial_setup()
         self._cycles = 0
         self._strobe_seconds = 5
+        self._rootdir = os.environ['HOME']
+        if rootdir is not None and os.path.exists(rootdir):
+            self._rootdir = rootdir
+        if not os.path.exists(self._rootdir):
+            raise Exception('no root dir')
+        # access list
+        self._acl_path = os.path.join(self._rootdir,'bw_cardkey.csv')
+        # event message dir
+        self._event_q_dir = os.path.join(self._rootdir,'events')
+        os.makedirs(self._event_q_dir)
         # setup logging
         FORMAT='%(asctime)-15s %(message)s'
         # logging.basicConfig(FORMAT)
+        self._logdir = os.path.join(self._rootdir,'log')
+        os.makedirs(self._logdir)
+        self._log_path = os.path.join(self._logdir,'hodor_watcher.log')
         self._logger = None
-        if not test_mode:
-            logging.basicConfig(filename='/home/pi/log/hodor_watcher.log',level=logging.INFO,format=FORMAT)
-            self._logger = logging.getLogger('hodor_watcher')
+        logging.basicConfig(
+            filename=self._log_path,
+            level=logging.INFO,
+            format=FORMAT
+        )
+        self._logger = logging.getLogger('hodor_watcher')
         self._dots = False
 
     def _gpio_setup(self):
@@ -114,7 +131,7 @@ class HodorWatcher:
 
     def run_main(self,arglist=None):
         self.process_arguments(arglist)
-        keydb_fh = open('/home/pi/bw_cardkey.csv')
+        keydb_fh = open(self._acl_path)
         everyone = self.readdb(keydb_fh)
         keydb_fh.close()
         print(repr(everyone))

@@ -1,12 +1,14 @@
 
 from hodor_controller.watcher import HodorWatcher
 import StringIO
+import tempfile
 import unittest
 
 class TestHodorWatcher(unittest.TestCase):
 
     def setUp(self):
-        self._ap = HodorWatcher(test_mode=True)
+        self._workdir = tempfile.mkdtemp()
+        self._ap = HodorWatcher(rootdir=self._workdir,test_mode=True)
 
     def test_scan_for_key(self):
         self.assertEqual(self._ap.scan_for_key(''),None)
