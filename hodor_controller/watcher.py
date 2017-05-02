@@ -1,5 +1,6 @@
 
 import csv
+import json
 import logging
 import os
 import re
@@ -157,8 +158,13 @@ class HodorWatcher:
     def write_event(self,msg):
         base_fname = self.event_fname()
         ev_path = os.path.join(self._event_q_dir,base_fname)
+        ev_obj = {
+            'message': msg,
+            'localtime': time.strftime('%Y-%m-%d %H:%M:%S %Z'),
+            'utctime': time.strftime('%Y-%m-%d %H:%M:%S',time.gmtime())
+        }
         fh = open(ev_path,'w')
-        fh.write(msg)
+        fh.write(json.dumps(ev_obj))
         fh.close()
         return ev_path
 

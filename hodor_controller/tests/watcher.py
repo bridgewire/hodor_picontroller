@@ -1,5 +1,6 @@
 
 from hodor_controller.watcher import HodorWatcher
+import json
 import os
 import StringIO
 import tempfile
@@ -60,10 +61,10 @@ class TestHodorWatcher(unittest.TestCase):
         got2 = self._ap.write_event('event2')
         self.assertEqual(os.path.exists(got1),True)
         text1 = file(got1).read()
-        self.assertEqual(text1,'event1')
+        self.assertEqual(json.loads(text1)['message'],'event1')
         self.assertEqual(os.path.exists(got2),True)
         text2 = file(got2).read()
-        self.assertEqual(text2,'event2')
+        self.assertEqual(json.loads(text2)['message'],'event2')
 
     def test_eval_access(self):
         testdb1 = {
