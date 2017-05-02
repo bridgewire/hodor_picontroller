@@ -43,12 +43,23 @@ class TestHodorSlackbot(unittest.TestCase):
         self._ap.record_lastseen(ev1path)
         got1 = self._ap.get_lastseen()
         self.assertEqual(got1,ev1path)
+        # explicitly handle case where statepath is undefined
+        self._ap._statepath = None
+        got2 = self._ap.get_lastseen()
 
     def test_find_new_events(self):
+        gotpaths0 = self._ap.find_new_events()
+        self.assertEqual(gotpaths0,[])
         eventnames = ['fne{0}.ev'.format(x) for x in range(1,5)]
         eventpaths = [
             self.write_test_event(base,base) for base in eventnames
         ]
         self._ap.record_lastseen(eventpaths[1])
-        gotpaths = self._ap.find_new_events()
-        self.assertEqual(gotpaths,['fne3.ev', 'fne4.ev'])
+        gotpaths1 = self._ap.find_new_events()
+        self.assertEqual(gotpaths1,['fne3.ev', 'fne4.ev'])
+        self._ap.record_lastseen(eventpaths[3])
+        gotpaths2 = self._ap.find_new_events()
+        self.assertEqual(gotpaths2,[])
+        # explicitly handle case where self._evdir is undefined
+        self._ap._evdir = None
+        gotpaths3 = self._ap.find_new_events()

@@ -1,3 +1,6 @@
 *~
 *.py[cdo]
 hodor_picontroller.egg-info
+.hodor_lastslack
+hodor_slacklog.txt
+events
