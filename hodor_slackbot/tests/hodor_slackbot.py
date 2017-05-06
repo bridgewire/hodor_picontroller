@@ -48,6 +48,24 @@ class TestHodorSlackbot(unittest.TestCase):
         self._ap._statepath = None
         got2 = self._ap.get_lastseen()
 
+    def test_find_new_event_names(self):
+        self.assertEqual(self._ap._statefile,'.hodor_lastslack')
+        gotpaths0 = self._ap.find_new_event_names()
+        self.assertEqual(gotpaths0,[])
+        eventnames = ['fne{0}.ev'.format(x) for x in range(1,5)]
+        eventpaths = [
+            self.write_test_event(base,base) for base in eventnames
+        ]
+        self._ap.record_lastseen(eventpaths[1])
+        gotpaths1 = self._ap.find_new_event_names()
+        self.assertEqual(gotpaths1,['fne3.ev', 'fne4.ev'])
+        self._ap.record_lastseen(eventpaths[3])
+        gotpaths2 = self._ap.find_new_event_names()
+        self.assertEqual(gotpaths2,[])
+        # explicitly handle case where self._evdir is undefined
+        self._ap._evdir = None
+        self.assertRaises(OSError,self._ap.find_new_event_names)
+
     def test_find_new_events(self):
         self.assertEqual(self._ap._statefile,'.hodor_lastslack')
         gotpaths0 = self._ap.find_new_events()
@@ -57,11 +75,14 @@ class TestHodorSlackbot(unittest.TestCase):
             self.write_test_event(base,base) for base in eventnames
         ]
         self._ap.record_lastseen(eventpaths[1])
-        gotpaths1 = self._ap.find_new_events()
-        self.assertEqual(gotpaths1,['fne3.ev', 'fne4.ev'])
+        gotfullpaths1 = self._ap.find_new_events()
+        for p in gotfullpaths1:
+            self.assertEqual(os.path.exists(p),True)
+        gotnames1 = [os.path.basename(p) for p in gotfullpaths1]
+        self.assertEqual(gotnames1,['fne3.ev', 'fne4.ev'])
         self._ap.record_lastseen(eventpaths[3])
-        gotpaths2 = self._ap.find_new_events()
-        self.assertEqual(gotpaths2,[])
+        gotfullpaths2 = self._ap.find_new_events()
+        self.assertEqual(gotfullpaths2,[])
         # explicitly handle case where self._evdir is undefined
         self._ap._evdir = None
         self.assertRaises(OSError,self._ap.find_new_events)

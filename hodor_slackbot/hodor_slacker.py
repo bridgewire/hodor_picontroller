@@ -87,7 +87,7 @@ class HodorSlacker:
             pass
         return out
 
-    def find_new_events(self):
+    def find_new_event_names(self):
         lastseen = self.get_lastseen()
         lastfname = None
         if lastseen is not None:
@@ -105,6 +105,11 @@ class HodorSlacker:
         outpaths = [f for f in outfiles]
         returnpaths = sorted(outpaths)
         return returnpaths
+
+    def find_new_events(self):
+        names = self.find_new_event_names()
+        paths = [os.path.join(self._evdir,n) for n in names]
+        return paths
 
     def run_main(self,arglist=None):
         self.process_arguments(arglist)
