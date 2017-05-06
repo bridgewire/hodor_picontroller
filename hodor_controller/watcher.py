@@ -180,7 +180,7 @@ class HodorWatcher:
                 self._cycles = 0
                 print('')
             rcv = self.serial_readport(100)
-            clean_rcv = self.scan_for_key(100)
+            clean_rcv = self.scan_for_key(rcv)
             if clean_rcv is not None:
                 self.console_write("\nreceived : {0}\n".format(repr(rcv)))
                 # read the ACL database and try to match the key
