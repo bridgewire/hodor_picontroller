@@ -3,7 +3,8 @@ import argparse
 import json
 import logging
 import os
-from slackclient import SlackClient
+import re
+import subprocess
 import sys
 
 
@@ -58,15 +59,26 @@ class HodorSlacker:
         if self._logger is not None:
             self._logger.info(msg,*args,**kwargs)
 
-    def slackit(self,msg):
-        if self._slackclient is not None:
-            self._slackclient.api_call(
-                'chat.postMessage',
-                channel='#watchtower',
-                text=msg
-            )
-            return True
+    def clean_msg_for_slack(self,msg):
+        safe_msg = re.sub(r'[^ A-Za-z0-9-_().]','',msg)
+        return safe_msg
 
+    def slackit(self,msg):
+        safe_msg = self.clean_msg_for_slack(msg)
+        json_payload = json.dumps({'text':safe_msg})
+        cmdlist = [
+            'curl',
+            '-X',
+            'POST',
+            '-H',
+            'Content-type: application/json',
+            '--data',
+            "{0}".format(json_payload),
+            self._slack_ep_url
+        ]
+        print(repr(cmdlist))
+        retval = subprocess.call(cmdlist)
+        return retval
 
     def record_lastseen(self,setpath):
         if not os.path.exists(setpath):
@@ -124,6 +136,10 @@ class HodorSlacker:
                 msg = 'slacker caught: {0}'.format(ev_obj['message'])
                 self.console(msg)
                 self.log(msg)
+                rc = self.slackit(msg)
+                slackresultmsg = 'slack curl returned {0}'.format(rc)
+                self.console(slackresultmsg)
+                self.log(slackresultmsg)
                 self.record_lastseen(ev_path)
                 message_count += 1
                 if self._countmax is not None:
