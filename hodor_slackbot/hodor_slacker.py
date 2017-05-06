@@ -133,7 +133,7 @@ class HodorSlacker:
             for ev_path in recent:
                 ev_obj = None
                 ev_obj = json.loads(file(ev_path).read(1024))
-                msg = 'slacker caught: {0}'.format(ev_obj['message'])
+                msg = '{0}'.format(ev_obj['message'])
                 self.console(msg)
                 self.log(msg)
                 rc = self.slackit(msg)
