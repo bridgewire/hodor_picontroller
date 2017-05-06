@@ -3,6 +3,7 @@ import datetime
 from ..hodor_slacker import HodorSlacker
 import json
 import os
+import sys
 import tempfile
 import time
 import unittest
@@ -12,7 +13,7 @@ class TestHodorSlackbot(unittest.TestCase):
     def setUp(self):
         self._workdir = tempfile.mkdtemp()
         self._evdir = os.path.join(self._workdir,'events')
-        os.makedirs(self._evdir)
+        os.mkdir(self._evdir)
         self._ap = HodorSlacker(self._workdir)
 
     def write_test_event(self,fname,msg):
@@ -48,6 +49,7 @@ class TestHodorSlackbot(unittest.TestCase):
         got2 = self._ap.get_lastseen()
 
     def test_find_new_events(self):
+        self.assertEqual(self._ap._statefile,'.hodor_lastslack')
         gotpaths0 = self._ap.find_new_events()
         self.assertEqual(gotpaths0,[])
         eventnames = ['fne{0}.ev'.format(x) for x in range(1,5)]
@@ -62,4 +64,4 @@ class TestHodorSlackbot(unittest.TestCase):
         self.assertEqual(gotpaths2,[])
         # explicitly handle case where self._evdir is undefined
         self._ap._evdir = None
-        gotpaths3 = self._ap.find_new_events()
+        self.assertRaises(OSError,self._ap.find_new_events)

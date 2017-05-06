@@ -20,21 +20,15 @@ class HodorSlacker:
         self._countmax = None
         if setroot is not None and os.path.exists(setroot):
             self._configure(setroot)
-        self._slack_token = None
-        self._slackclient = None
         self._slack_ep_url = 'https://hooks.slack.com/services/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'
-        if 'SLACK_API_TOKEN' in os.environ:
-            self._slack_token = os.environ['SLACK_API_TOKEN']
-            self._slackclient = SlackClient(self._slack_token)
-
 
     def _configure(self,rootdir):
         self._rootdir = rootdir
         if not os.path.exists(self._rootdir):
             raise Exception('working directory not found')
-        self._evdir = os.path.join(rootdir,'events')
+        self._evdir = os.path.join(self._rootdir,'events')
         if not os.path.exists(self._evdir):
-            raise Exception('event dir not found')
+            raise OSError('event dir {0} not there'.format(self._evdir))
         self._statepath = os.path.join(self._rootdir,self._statefile)
         if not os.path.exists(self._statepath):
             fh = open(self._statepath,'w')
@@ -102,13 +96,13 @@ class HodorSlacker:
         if self._evdir is not None:
             seenfiles = os.listdir(self._evdir)
         else:
-            raise Exception('event directory not found')
+            raise OSError('event dir {0} not found'.format(self._evdir))
         outfiles = None
         if lastseen is not None:
             outfiles = [p for p in seenfiles if p > lastfname]
         else:
             outfiles = seenfiles
-        outpaths = [os.path.join(self._evdir,f) for f in outfiles]
+        outpaths = [f for f in outfiles]
         returnpaths = sorted(outpaths)
         return returnpaths
 
