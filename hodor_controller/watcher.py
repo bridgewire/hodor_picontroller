@@ -28,7 +28,7 @@ except ImportError:
 
 class HodorWatcher:
 
-    def __init__(self,rootdir,test_mode=False):
+    def __init__(self,rootdir=None,test_mode=False):
         self._gpio_setup()
         # setup serial port
         self._port = None
@@ -45,7 +45,8 @@ class HodorWatcher:
         self._acl_path = os.path.join(self._rootdir,'bw_cardkey.csv')
         # event message dir
         self._event_q_dir = os.path.join(self._rootdir,'events')
-        os.makedirs(self._event_q_dir)
+        if not os.path.exists(self._event_q_dir):
+            os.makedirs(self._event_q_dir)
         # setup logging
         FORMAT='%(asctime)-15s %(message)s'
         # logging.basicConfig(FORMAT)
