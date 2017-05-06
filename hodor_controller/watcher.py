@@ -37,7 +37,18 @@ class HodorWatcher:
         self._event_seqnum = 0
         self._cycles = 0
         self._strobe_seconds = 5
-        self._rootdir = os.environ['HOME']
+        self._dots = False
+        self._rootdir = None
+        self._acl_path = None
+        self._event_q_dir = None
+        self._logdir = None
+        self._log_path = None
+        self._logger = None
+        if rootdir is not None:
+            self._setrootdir(rootdir)
+
+    def _setrootdir(self,the_root):
+        self._rootdir = the_root
         if rootdir is not None and os.path.exists(rootdir):
             self._rootdir = rootdir
         if not os.path.exists(self._rootdir):
@@ -62,7 +73,6 @@ class HodorWatcher:
             format=FORMAT
         )
         self._logger = logging.getLogger('hodor_watcher')
-        self._dots = False
 
     def _gpio_setup(self):
         # setup GPIO
@@ -100,8 +110,11 @@ class HodorWatcher:
 
     def process_arguments(self,arglist):
         prsr = argparse.ArgumentParser()
+        prsr.add_argument('--root',required=True)
         prsr.add_argument('--dots',action='store_true')
         args = prsr.parse_args(arglist)
+        if args.root is not None:
+            self._setrootdir(args.root)
         if args.dots:
             self._dots = True
 
