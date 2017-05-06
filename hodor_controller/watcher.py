@@ -51,7 +51,8 @@ class HodorWatcher:
         FORMAT='%(asctime)-15s %(message)s'
         # logging.basicConfig(FORMAT)
         self._logdir = os.path.join(self._rootdir,'log')
-        os.makedirs(self._logdir)
+        if not os.path.exists(self._logdir):
+            os.makedirs(self._logdir)
         self._log_path = os.path.join(self._logdir,'hodor_watcher.log')
         self._logger = None
         logging.basicConfig(
