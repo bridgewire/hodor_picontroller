@@ -1,4 +1,5 @@
 
+import argparse
 import csv
 import json
 import logging
@@ -137,13 +138,13 @@ class HodorWatcher:
             grant_info = True
         return grant_info, user_info
 
-    def console_write(msg):
+    def console_write(self,msg):
         sys.stdout.write(msg)
 
-    def console(msg):
+    def console(self,msg):
         print(msg)
 
-    def log(msg,*args,**kwargs):
+    def log(self,msg,*args,**kwargs):
         if self._logger is not None:
             self._logger.info(msg,*args,**kwargs)
 
