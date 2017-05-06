@@ -3,7 +3,9 @@ import argparse
 import json
 import logging
 import os
+from slackclient import SlackClient
 import sys
+
 
 class HodorSlacker:
 
@@ -18,6 +20,12 @@ class HodorSlacker:
         self._countmax = None
         if setroot is not None and os.path.exists(setroot):
             self._configure(setroot)
+        self._slack_token = None
+        self._slackclient = None
+        self._slack_ep_url = 'https://hooks.slack.com/services/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'
+        if 'SLACK_API_TOKEN' in os.environ:
+            self._slack_token = os.environ['SLACK_API_TOKEN']
+            self._slackclient = SlackClient(self._slack_token)
 
 
     def _configure(self,rootdir):
@@ -55,6 +63,16 @@ class HodorSlacker:
     def log(self,msg,*args,**kwargs):
         if self._logger is not None:
             self._logger.info(msg,*args,**kwargs)
+
+    def slackit(self,msg):
+        if self._slackclient is not None:
+            self._slackclient.api_call(
+                'chat.postMessage',
+                channel='#watchtower',
+                text=msg
+            )
+            return True
+
 
     def record_lastseen(self,setpath):
         if not os.path.exists(setpath):
