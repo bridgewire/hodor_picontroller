@@ -48,9 +48,8 @@ class HodorWatcher:
             self._setrootdir(rootdir)
 
     def _setrootdir(self,the_root):
-        self._rootdir = the_root
-        if rootdir is not None and os.path.exists(rootdir):
-            self._rootdir = rootdir
+        if the_root is not None and os.path.exists(the_root):
+            self._rootdir = the_root
         if not os.path.exists(self._rootdir):
             raise Exception('no root dir')
         # access list
