@@ -36,7 +36,7 @@ class HodorWatcher:
         self._serial_setup()
         self._event_seqnum = 0
         self._cycles = 0
-        self._strobe_seconds = 5
+        self._strobe_seconds = 3
         self._dots = False
         self._rootdir = None
         self._acl_path = None
@@ -186,11 +186,12 @@ class HodorWatcher:
     def run_main(self,arglist=None):
         self.process_arguments(arglist)
         while True:
-            self.console_write('.')
-            self._cycles += 1
-            if self._cycles % 60 == 0:
-                self._cycles = 0
-                print('')
+            if self._dots:
+                self.console_write('.')
+                self._cycles += 1
+                if self._cycles % 60 == 0:
+                    self._cycles = 0
+                    print('')
             rcv = self.serial_readport(100)
             clean_rcv = self.scan_for_key(rcv)
             if clean_rcv is not None:
