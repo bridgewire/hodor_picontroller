@@ -189,6 +189,7 @@ class HodorWatcher:
                     unrec_msg = "Unrecognized key {0}".format(clean_rcv)
                     self.console(unrec_msg)
                     self.log(unrec_msg)
+                    self.write_event(unrec_msg)
                 else:
                     recognize_msg = "Recognized {0} ({1})".format(
                         dude['NAME'],
@@ -196,6 +197,7 @@ class HodorWatcher:
                     )
                     self.console(recognize_msg)
                     self.log(recognize_msg)
+                    self.write_event(recognize_msg)
                     if access_ok:
                         grant_msg = "ACCESS GRANTED TO: {0} ({1})".format(
                             dude['NAME'],
@@ -203,6 +205,7 @@ class HodorWatcher:
                         )
                         self.console(grant_msg)
                         self.log(grant_msg)
+                        self.write_event(grant_msg)
                         self.strobe_access()
                     else:
                         deny_msg = "DENYING {0} ({1})".format(
@@ -211,6 +214,7 @@ class HodorWatcher:
                         )
                         self.console(deny_msg)
                         self.log(deny_msg)
+                        self.write_event(deny_msg)
             sys.stdout.flush()
 
 def main():
