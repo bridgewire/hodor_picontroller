@@ -139,9 +139,29 @@ class HodorSlacker:
                 break
             recent = self.find_new_events()
             for ev_path in recent:
+                ev_text = None
                 ev_obj = None
-                ev_obj = json.loads(file(ev_path).read(1024))
-                msg = '{0}'.format(ev_obj['message'])
+                msg = None
+                try:
+                    ev_fh = open(ev_path,'r')
+                    ev_text = ev_fh.read(1024)
+                    ev_fh.close()
+                    ev_obj = json.loads(ev_text)
+                    msg = '{0}'.format(ev_obj['message'])
+                except:
+                    err_tpl = \
+                        'READ ERROR ev_path: {0} text "{1}" obj {2!r} msg {3}'
+                    err_msg = err_tpl.format(
+                        ev_path,
+                        ev_text,
+                        ev_obj,
+                        msg
+                    )
+                    self.console(err_msg)
+                    self.log(err_msg)
+                if msg is None:
+                    self.record_lastseen(ev_path)
+                    continue
                 self.console(msg)
                 self.log(msg)
                 rc = self.slackit(msg)
