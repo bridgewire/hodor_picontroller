@@ -6,6 +6,7 @@ import os
 import re
 import subprocess
 import sys
+import yaml
 
 
 class HodorSlacker:
@@ -21,7 +22,7 @@ class HodorSlacker:
         self._countmax = None
         if setroot is not None and os.path.exists(setroot):
             self._configure(setroot)
-        self._slack_ep_url = 'https://hooks.slack.com/services/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'
+        self._slack_ep_url = None
 
     def _configure(self,rootdir):
         self._rootdir = rootdir
@@ -34,6 +35,13 @@ class HodorSlacker:
         if not os.path.exists(self._statepath):
             fh = open(self._statepath,'w')
             fh.close()
+        self._configpath = os.path.join(
+            self._rootdir,
+            '.hodor_slacker_config.yml'
+        )
+        if os.path.exists(self._configpath):
+            cfg_obj = yaml.load(file(self._configpath).read(2048))
+            self._slack_ep_url = cfg_obj['slack_endpoint']
         # setup logging
         FORMAT='%(asctime)-15s %(message)s'
         self._log_path = os.path.join(self._rootdir,self._logbasename)

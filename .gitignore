@@ -4,3 +4,5 @@ hodor_picontroller.egg-info
 .hodor_lastslack
 hodor_slacklog.txt
 events
+# the slacker config should be private and not checked in
+.hodor_slacker_config.yml
