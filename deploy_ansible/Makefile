@@ -1,6 +1,7 @@
 
 run_ansible_install: projenv/bin/activate Makefile
-	ansible-playbook -i inv.yml the_playbook.yml
+	ansible-playbook -i inv.yml hodor_controller_playbook.yml
+	ansible-playbook -i inv.yml hodor_slackbot_playbook.yml
 
 run_ansible_adhoc_hostname: projenv/bin/activate Makefile
 	ansible -i inv.yml all -u pi -b -a hostname

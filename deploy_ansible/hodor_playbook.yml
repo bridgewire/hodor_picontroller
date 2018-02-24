@@ -1,0 +1,26 @@
+---
+- hosts: all
+  vars:
+    controller_install_dir: /home/pi
+    controller_log_dir: /home/pi/log
+    controller_run_dir: /home/pi
+    slackbot_install_dir: /home/pi
+    slackbot_log_dir: /home/pi/log
+    slackbot_run_dir: /home/pi
+    runhodor_install_dir: /home/pi
+  remote_user: pi
+  tasks:
+      - name: drop run_hodor.sh script
+        template:
+          src: scripts/run_hodor.sh
+          dest: "{{ runhodor_install_dir }}"
+      - name: drop hodor_controller package files
+        synchronize:
+          src: ../hodor_controller
+          dest: "{{ controller_install_dir }}"
+          rsync_opts: "--exclude=*.pyc"
+      - name: drop hodor_slackbot package files
+        synchronize:
+          src: ../hodor_slackbot
+          dest: "{{ slackbot_install_dir }}"
+          rsync_opts: "--exclude=*.pyc"

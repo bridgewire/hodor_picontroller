@@ -1,0 +1,17 @@
+# hodor slacker config
+#  mostly for holding endpoint, as that should be private and not
+#  embedded in the source code
+
+# the 'slack_endpoint' key should be a URL to the API endpoint
+# to the slack channel where you want slackbot messages published.
+# Edit the URL in the following line:
+slack_endpoint: https://hooks.slack.com/services/CHANGE/THIS/URL
+
+# USAGE:
+#
+# This configuration file should be placed in the
+# slackbot's working directory.
+#
+#  The default behavior of the Ansible deployment script
+#  is to install the slackbot and run it from the '/home/pi'
+#  directory.
