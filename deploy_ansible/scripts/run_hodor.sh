@@ -2,7 +2,7 @@
 
 controllerlogfile="{{ slackbot_log_dir }}/run_hodor_controller_"`date +%Y%m%d_%H%M%S`"_$$.log"
 slackerlogfile="{{ slackbot_log_dir }}/run_hodor_slacker_"`date +%Y%m%d_%H%M%S`"_$$.log"
-cd /home/pi/repos/hodor_picontroller
+
 export PYTHONUNBUFFERED=1
 touch ${controllerlogfile}
 touch ${slackerlogfile}
