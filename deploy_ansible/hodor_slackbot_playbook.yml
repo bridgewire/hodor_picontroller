@@ -1,0 +1,9 @@
+---
+- hosts: all
+  remote_user: pi
+  tasks:
+      - name: drop hodor_slackbot package files
+        synchronize:
+          src: ../hodor_slackbot
+          dest: /home/pi
+          rsync_opts: "--exclude=*.pyc"
