@@ -1,0 +1,6 @@
+---
+- hosts: all
+  remote_user: pi
+  tasks:
+      - name: print hostname
+        command: hostname

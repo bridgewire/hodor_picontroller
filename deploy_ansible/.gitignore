@@ -1,0 +1,5 @@
+# git ignore file
+# ignore user-made Ansible inventory file 'inv.yml'
+inv.yml
+# ignore the 'projenv' directory used to build project-local Python setup
+projenv
