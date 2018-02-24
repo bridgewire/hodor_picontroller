@@ -1,9 +1,0 @@
----
-- hosts: all
-  remote_user: pi
-  tasks:
-      - name: drop hodor_controller package files
-        synchronize:
-          src: ../hodor_controller
-          dest: /home/pi/hodor_controller
-          rsync_opts: "--exclude=*.pyc"

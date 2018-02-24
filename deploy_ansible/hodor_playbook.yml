@@ -1,19 +1,33 @@
 ---
 - hosts: all
   vars:
-    controller_install_dir: /home/pi
+    setuppy_install_dir: /home/pi/hodor_picontroller
+    controller_install_dir: /home/pi/hodor_picontroller
     controller_log_dir: /home/pi/log
     controller_run_dir: /home/pi
-    slackbot_install_dir: /home/pi
+    slackbot_install_dir: /home/pi/hodor_picontroller
     slackbot_log_dir: /home/pi/log
     slackbot_run_dir: /home/pi
     runhodor_install_dir: /home/pi
   remote_user: pi
   tasks:
-      - name: drop run_hodor.sh script
-        template:
-          src: scripts/run_hodor.sh
-          dest: "{{ runhodor_install_dir }}"
+      - name: download get-pip.py
+        get_url:
+          url: https://bootstrap.pypa.io/get-pip.py
+          dest: /tmp/get-pip.py
+          checksum: sha256:19dae841a150c86e2a09d475b5eb0602861f2a5b7761ec268049a662dbd2bd0c
+      - name: install pip using get-pip.py
+        command: python /tmp/get-pip.py
+        args:
+          creates: /usr/local/bin/pip
+        become: yes
+        become_user: root
+      - name: install setuptools with pip
+        command: pip install setuptools
+        args:
+          creates: /usr/local/lib/python2.7/dist-packages/setuptools/__init__.py
+        become: yes
+        become_user: root
       - name: drop hodor_controller package files
         synchronize:
           src: ../hodor_controller
@@ -24,3 +38,21 @@
           src: ../hodor_slackbot
           dest: "{{ slackbot_install_dir }}"
           rsync_opts: "--exclude=*.pyc"
+      - name: drop setup.py install script
+        copy:
+          src: ../setup.py
+          dest: "{{ setuppy_install_dir }}"
+      - name: create controller log dir if needed
+        file:
+          path: "{{ controller_log_dir }}"
+          state: directory
+          mode: 0755
+      - name: create slackbot log dir if needed
+        file:
+          path: "{{ slackbot_log_dir }}"
+          state: directory
+          mode: 0755
+      - name: drop run_hodor.sh script
+        template:
+          src: scripts/run_hodor.sh
+          dest: "{{ runhodor_install_dir }}"
