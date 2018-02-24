@@ -52,7 +52,47 @@
           path: "{{ slackbot_log_dir }}"
           state: directory
           mode: 0755
-      - name: drop run_hodor.sh script
-        template:
-          src: scripts/run_hodor.sh
-          dest: "{{ runhodor_install_dir }}"
+      - name: install hodor_watcher and hodor_slacker
+        command: python setup.py develop
+        args:
+          creates: /usr/local/bin/hodor_slacker
+          chdir: "{{ setuppy_install_dir }}"
+        become: yes
+        become_user: root
+      - name: install hodor_watcher init.d script
+        copy:
+          src: scripts/etc_init.d_hodor_watcher
+          dest: /etc/init.d/hodor_watcher
+          mode: 0755
+        become: yes
+        become_user: root
+      - name: update init.d links for hodor_watcher
+        command: update-rc.d hodor_watcher defaults
+        args:
+          creates: /etc/rc?.d/*hodor_watcher
+        become: yes
+        become_user: root
+      - name: install hodor_slacker init.d script
+        copy:
+          src: scripts/etc_init.d_hodor_slacker
+          dest: /etc/init.d/hodor_slacker
+          mode: 0755
+        become: yes
+        become_user: root
+      - name: update init.d links for hodor_slacker
+        command: update-rc.d hodor_slacker defaults
+        args:
+          creates: /etc/rc?.d/*hodor_slacker
+        become: yes
+        become_user: root
+      - name: enable hodor_watcher service
+        service:
+          name: hodor_watcher
+          enabled: yes
+          state: started
+      # hodor_slacker service enable TBD pending
+      # handling of missing conf file
+      # - name: drop run_hodor.sh script
+      #   template:
+      #     src: scripts/run_hodor.sh
+      #     dest: "{{ runhodor_install_dir }}"
