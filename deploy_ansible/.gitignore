@@ -3,3 +3,5 @@
 inv.yml
 # ignore the 'projenv' directory used to build project-local Python setup
 projenv
+# ignore Ansible retry files
+*.retry

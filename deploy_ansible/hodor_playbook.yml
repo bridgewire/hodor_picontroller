@@ -11,6 +11,12 @@
     runhodor_install_dir: /home/pi
   remote_user: pi
   tasks:
+      - name: install yaml using apt-get
+        apt:
+          name: python-yaml
+          state: present
+        become: yes
+        become_user: root
       - name: download get-pip.py
         get_url:
           url: https://bootstrap.pypa.io/get-pip.py
@@ -26,6 +32,12 @@
         command: pip install setuptools
         args:
           creates: /usr/local/lib/python2.7/dist-packages/setuptools/__init__.py
+        become: yes
+        become_user: root
+      - name: install wiringpi with pip
+        command: pip install wiringpi
+        args:
+          creates: /usr/local/lib/python2.7/dist-packages/wiringpi.py
         become: yes
         become_user: root
       - name: drop hodor_controller package files
@@ -59,10 +71,29 @@
           chdir: "{{ setuppy_install_dir }}"
         become: yes
         become_user: root
+      # hodor_slacker service enable TBD pending
+      # handling of missing conf file
+      - name: drop run_hodor_watcher.sh script
+        template:
+          src: scripts/run_hodor_watcher.sh
+          dest: "{{ runhodor_install_dir }}"
+          mode: 0755
+      - name: drop run_hodor_slacker.sh script
+        template:
+          src: scripts/run_hodor_slacker.sh
+          dest: "{{ runhodor_install_dir }}"
+          mode: 0755
       - name: install hodor_watcher init.d script
         copy:
           src: scripts/etc_init.d_hodor_watcher
           dest: /etc/init.d/hodor_watcher
+          mode: 0755
+        become: yes
+        become_user: root
+      - name: install hodor_slacker init.d script
+        copy:
+          src: scripts/etc_init.d_hodor_slacker
+          dest: /etc/init.d/hodor_slacker
           mode: 0755
         become: yes
         become_user: root
@@ -85,14 +116,15 @@
           creates: /etc/rc?.d/*hodor_slacker
         become: yes
         become_user: root
-      - name: enable hodor_watcher service
-        service:
-          name: hodor_watcher
-          enabled: yes
-          state: started
-      # hodor_slacker service enable TBD pending
-      # handling of missing conf file
-      # - name: drop run_hodor.sh script
-      #   template:
-      #     src: scripts/run_hodor.sh
-      #     dest: "{{ runhodor_install_dir }}"
+      - name: update init.d links with systemd
+        command: systemctl daemon-reload
+        become: yes
+        become_user: root
+      - name: restart hodor_watcher service
+        command: /etc/init.d/hodor_watcher restart
+        become: yes
+        become_user: root
+      - name: restart hodor_slacker service
+        command: /etc/init.d/hodor_slacker restart
+        become: yes
+        become_user: root
