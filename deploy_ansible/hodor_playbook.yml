@@ -60,6 +60,11 @@
         copy:
           src: ../setup.py
           dest: "{{ setuppy_install_dir }}"
+      - name: drop example card key file if no card key file
+        copy:
+          src: files/example_bw_cardkey.csv
+          dest: /home/pi
+          force: no
       - name: create controller log dir if needed
         file:
           path: "{{ controller_log_dir }}"
@@ -77,8 +82,6 @@
           chdir: "{{ setuppy_install_dir }}"
         become: yes
         become_user: root
-      # hodor_slacker service enable TBD pending
-      # handling of missing conf file
       - name: drop run_hodor_watcher.sh script
         template:
           src: scripts/run_hodor_watcher.sh
