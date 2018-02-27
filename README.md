@@ -15,11 +15,51 @@ Raspberry Pi-based door controller
 
 ## Overview of Program Operation
 
+### Card Key File
+
+To operate properly, the system requires a file with list of card ID numbers
+to accept.
+
+The card key file is named `bw_cardkey.csv` and lives in the directory `/home/pi`.
+The card key file is CSV formatted and requires that the first line read as
+follows:
+```
+    KEY,NAME,ALLOW
+```
+This first line is a header row identifying the fields expected in the lines to follow.
+Each line after the first contains information for a single card.
+
+The definitions of the columns named first line are as follows:
+
+* The `KEY` column is the ID number for a card to be accepted.
+* The `NAME` column is the name of the user who owns the given card.
+* The `ALLOW` column indicates whether a user is allowed access.  To allow a
+card ID to be accepted for entry, the letter `y` should be put in this column.
+Other values imply denial of entry.
+
+So a simple card key file might look like this:
+```
+    KEY,NAME,ALLOW
+    12-34-56-12-34-56,Jane Doe,y
+    13-13-13-13-13-13,Herman Munster,n
+```
+The above key card would recognize two users, but only allow "Jane Doe" access.
+If "Herman Munster" used his card, his name would be recognized but he would be
+denied access and the denial would be recorded in the log.  The `ALLOW` column
+is intended for several scenarios.  It allows for temporary suspension of access
+in cases where--for example--a member's subscription is unpaid.  It also is
+provided so lost and stolen cards can be recognized where the name can be
+kept in the record but not accepted for access, so when lost and stolen cards
+are scanned the previous owner can be identified.
+
 ### hodor_controller Operation
 
 On a Raspberry Pi the `hodor_controller` program monitors the Raspberry Pi serial port
 for RFID card ID's scanned by an external receiver device and compares it against
-a local file `bw_cardkey.csv`.  As card ID's are scanned, messages are written
+a local file `bw_cardkey.csv`.  The file is re-read each time a card is scanned
+so the card ID list can be updated and the `hodor_controller` program will
+automatically accept new ID's without requiring a restart or other intervention.
+As card ID's are scanned, messages are written
 to a log file and to an `events` directory to be read by `hodor_slackbot`.
 
 The messages in the `events` directory are formatted as simple JSON files.
