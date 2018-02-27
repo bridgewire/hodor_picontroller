@@ -1,9 +1,9 @@
 
 run_ansible_install: projenv/bin/activate Makefile
-	ansible-playbook -i inv.yml hodor_playbook.yml
+	. projenv/bin/activate && ansible-playbook -i inv.yml hodor_playbook.yml
 
 run_ansible_adhoc_hostname: projenv/bin/activate Makefile
-	ansible -i inv.yml all -u pi -b -a hostname
+	. projenv/bin/activate && ansible -i inv.yml all -u pi -b -a hostname
 
 # The following builds a project-specific environment
 # with Ansible installed for use by the commands above.
