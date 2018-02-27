@@ -17,6 +17,12 @@
           state: present
         become: yes
         become_user: root
+      - name: install python-serial using apt-get
+        apt:
+          name: python-serial
+          state: present
+        become: yes
+        become_user: root
       - name: download get-pip.py
         get_url:
           url: https://bootstrap.pypa.io/get-pip.py
