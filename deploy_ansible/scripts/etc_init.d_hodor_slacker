@@ -62,7 +62,7 @@ do_stop()
 			kill -TERM  `cat /home/pi/pid_run_hodor_slacker.pid`
 		fi
 	fi
-	ps auxww | egrep 'hodor_slacker.py' | grep -v grep | awk '{print $2}' | xargs kill
+	ps auxww | egrep 'hodor_slacker.py' | grep -v grep | awk '{print $2}' | grep '[0-9]' | xargs -r kill
 	rm -f /home/pi/pid_run_hodor_slacker.pid
 	# Return
 	#   0 if daemon has been stopped
