@@ -1,29 +1,13 @@
 
-import RPi.GPIO as GPIO
 import serial
 import string
 import sys
 import time
 
-# setup GPIO
-try:
-	import RPi.GPIO as GPIO
-except RuntimeError:
-	print("Error importing GPIO module")
-
-GPIO.setmode(GPIO.BOARD)
-
-GPIO.setup(16,GPIO.OUT)
-
 # setup serial port
-port = serial.Serial("/dev/serial0",baudrate=115200,timeout=1.0)
+port = serial.Serial("/dev/tty.usbserial",baudrate=9600,timeout=1.0,bytesize=8,parity='N',stopbits=1,rtscts=False,xonxoff=False)
 
 cycles = 0
-
-def strobe_access():
-	GPIO.output(16,GPIO.HIGH)
-	time.sleep(1)
-	GPIO.output(16,GPIO.LOW)
 
 while True:
 	sys.stdout.write('.')

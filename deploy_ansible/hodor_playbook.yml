@@ -27,7 +27,7 @@
         get_url:
           url: https://bootstrap.pypa.io/get-pip.py
           dest: /tmp/get-pip.py
-          checksum: sha256:19dae841a150c86e2a09d475b5eb0602861f2a5b7761ec268049a662dbd2bd0c
+          checksum: sha256:ef0d74edcacf495c24d2bb2fa5e7ae6f23abc6ff0171180d9d868596057f44f8
       - name: install pip using get-pip.py
         command: python /tmp/get-pip.py
         args:

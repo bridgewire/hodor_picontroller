@@ -1,6 +1,6 @@
 
-#  This is a very simple Ansible inventory file.  An Ansible inventory 
-#  file defines groups of hosts managed by Ansible.  This very simple 
+#  This is a very simple Ansible inventory file.  An Ansible inventory
+#  file defines groups of hosts managed by Ansible.  This very simple
 #  inventory file defines a single group named 'all' with a single
 #  host.
 all:
@@ -10,5 +10,5 @@ all:
         # Replace "example.com" below with your target host of choice.
         # Maintain the indentation and put a colon (":") right
         # after the hostname, with no intervening spaces.
-        example.com:
+        192.168.1.101:
             become_user: pi
