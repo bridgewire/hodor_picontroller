@@ -1,0 +1,2 @@
+# ignore private config files
+private_*.yml
