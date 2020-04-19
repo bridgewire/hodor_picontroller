@@ -40,7 +40,7 @@ class HodorSlacker:
             '.hodor_slacker_config.yml'
         )
         if os.path.exists(self._configpath):
-            cfg_obj = yaml.load(file(self._configpath).read(2048))
+            cfg_obj = yaml.load(open(self._configpath).read(2048))
             self._slack_ep_url = cfg_obj['slack_endpoint']
         # setup logging
         FORMAT='%(asctime)-15s %(message)s'
@@ -100,7 +100,7 @@ class HodorSlacker:
         out = None
         try:
             if os.path.exists(self._statepath):
-                lastpath = file(self._statepath).read()
+                lastpath = open(self._statepath).read()
                 if os.path.exists(lastpath):
                     out = lastpath
         except TypeError:

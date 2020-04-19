@@ -11,27 +11,10 @@
     runhodor_install_dir: /home/pi
   remote_user: pi
   tasks:
-      - name: install yaml using apt-get
+      - name: install yaml pip python-serial using apt-get
         apt:
-          name: python-yaml
+          pkg: ['python-yaml','python-pip','python-serial']
           state: present
-        become: yes
-        become_user: root
-      - name: install python-serial using apt-get
-        apt:
-          name: python-serial
-          state: present
-        become: yes
-        become_user: root
-      - name: download get-pip.py
-        get_url:
-          url: https://bootstrap.pypa.io/get-pip.py
-          dest: /tmp/get-pip.py
-          checksum: sha256:ef0d74edcacf495c24d2bb2fa5e7ae6f23abc6ff0171180d9d868596057f44f8
-      - name: install pip using get-pip.py
-        command: python /tmp/get-pip.py
-        args:
-          creates: /usr/local/bin/pip
         become: yes
         become_user: root
       - name: install setuptools with pip
@@ -92,48 +75,51 @@
           src: scripts/run_hodor_slacker.sh
           dest: "{{ runhodor_install_dir }}"
           mode: 0755
-      - name: install hodor_watcher init.d script
-        copy:
-          src: scripts/etc_init.d_hodor_watcher
-          dest: /etc/init.d/hodor_watcher
-          mode: 0755
-        become: yes
-        become_user: root
-      - name: install hodor_slacker init.d script
-        copy:
-          src: scripts/etc_init.d_hodor_slacker
-          dest: /etc/init.d/hodor_slacker
-          mode: 0755
-        become: yes
-        become_user: root
-      - name: update init.d links for hodor_watcher
-        command: update-rc.d hodor_watcher defaults
-        args:
-          creates: /etc/rc?.d/*hodor_watcher
-        become: yes
-        become_user: root
-      - name: install hodor_slacker init.d script
-        copy:
-          src: scripts/etc_init.d_hodor_slacker
-          dest: /etc/init.d/hodor_slacker
-          mode: 0755
-        become: yes
-        become_user: root
-      - name: update init.d links for hodor_slacker
-        command: update-rc.d hodor_slacker defaults
-        args:
-          creates: /etc/rc?.d/*hodor_slacker
-        become: yes
-        become_user: root
-      - name: update init.d links with systemd
-        command: systemctl daemon-reload
-        become: yes
-        become_user: root
-      - name: restart hodor_watcher service
-        command: /etc/init.d/hodor_watcher restart
-        become: yes
-        become_user: root
-      - name: restart hodor_slacker service
-        command: /etc/init.d/hodor_slacker restart
-        become: yes
-        become_user: root
+###
+      # -name: next step
+###
+      # - name: install hodor_watcher init.d script
+      #   copy:
+      #     src: scripts/etc_init.d_hodor_watcher
+      #     dest: /etc/init.d/hodor_watcher
+      #     mode: 0755
+      #   become: yes
+      #   become_user: root
+      # - name: install hodor_slacker init.d script
+      #   copy:
+      #     src: scripts/etc_init.d_hodor_slacker
+      #     dest: /etc/init.d/hodor_slacker
+      #     mode: 0755
+      #   become: yes
+      #   become_user: root
+      # - name: update init.d links for hodor_watcher
+      #   command: update-rc.d hodor_watcher defaults
+      #   args:
+      #     creates: /etc/rc?.d/*hodor_watcher
+      #   become: yes
+      #   become_user: root
+      # - name: install hodor_slacker init.d script
+      #   copy:
+      #     src: scripts/etc_init.d_hodor_slacker
+      #     dest: /etc/init.d/hodor_slacker
+      #     mode: 0755
+      #   become: yes
+      #   become_user: root
+      # - name: update init.d links for hodor_slacker
+      #   command: update-rc.d hodor_slacker defaults
+      #   args:
+      #     creates: /etc/rc?.d/*hodor_slacker
+      #   become: yes
+      #   become_user: root
+      # - name: update init.d links with systemd
+      #   command: systemctl daemon-reload
+      #   become: yes
+      #   become_user: root
+      # - name: restart hodor_watcher service
+      #   command: /etc/init.d/hodor_watcher restart
+      #   become: yes
+      #   become_user: root
+      # - name: restart hodor_slacker service
+      #   command: /etc/init.d/hodor_slacker restart
+      #   become: yes
+      #   become_user: root

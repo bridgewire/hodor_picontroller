@@ -2,7 +2,11 @@
 from hodor_controller.watcher import HodorWatcher
 import json
 import os
-import StringIO
+try:
+    from io import StringIO
+except ImportError:
+    # obsolete as of this writing, but still throw a sop to Python 2.7
+    from StringIO import StringIO
 import tempfile
 import unittest
 
@@ -24,7 +28,7 @@ class TestHodorWatcher(unittest.TestCase):
 02-blah,Foo Bar,n
 1-3,Whoever,
 """
-        fh1 = StringIO.StringIO(dbtext1)
+        fh1 = StringIO(dbtext1)
         got_db1 = self._ap.readdb(fh1)
         expect_db1 = {
             '13': {'ALLOW': '', 'NAME': 'Whoever', 'KEY': '1-3'},
@@ -60,10 +64,10 @@ class TestHodorWatcher(unittest.TestCase):
         got1 = self._ap.write_event('event1')
         got2 = self._ap.write_event('event2')
         self.assertEqual(os.path.exists(got1),True)
-        text1 = file(got1).read()
+        text1 = open(got1).read()
         self.assertEqual(json.loads(text1)['message'],'event1')
         self.assertEqual(os.path.exists(got2),True)
-        text2 = file(got2).read()
+        text2 = open(got2).read()
         self.assertEqual(json.loads(text2)['message'],'event2')
 
     def test_eval_access(self):

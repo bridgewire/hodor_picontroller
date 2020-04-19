@@ -1,6 +1,6 @@
 
 import datetime
-from ..hodor_slacker import HodorSlacker
+from hodor_slackbot.hodor_slacker import HodorSlacker
 import json
 import os
 import sys
@@ -8,7 +8,7 @@ import tempfile
 import time
 import unittest
 
-class TestHodorSlackbot(unittest.TestCase):
+class TestHodorSlacker(unittest.TestCase):
 
     def setUp(self):
         self._workdir = tempfile.mkdtemp()
@@ -30,7 +30,7 @@ class TestHodorSlackbot(unittest.TestCase):
         evpath = self.write_test_event('foo.ev','blah')
         got1 = self._ap.record_lastseen(evpath)
         self.assertEqual(got1,True)
-        evtext = file(evpath).read()
+        evtext = open(evpath).read()
         self.assertEqual(evtext,'{"message": "blah"}')
         badpath = evpath + 'nonsense'
         self.assertRaises(ValueError,self._ap.record_lastseen,badpath)
