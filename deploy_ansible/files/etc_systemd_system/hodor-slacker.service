@@ -1,0 +1,14 @@
+[Unit]
+Description=Hodor Slacker
+After=network.target
+
+[Service]
+ExecStart=/bin/bash /home/pi/run_hodor_slacker.sh
+WorkingDirectory=/home/pi
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
