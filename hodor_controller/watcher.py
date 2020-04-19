@@ -17,13 +17,10 @@ except ImportError:
     print("Error importing GPIO module - GPIO functions disabled")
     GPIO_ENABLED = False
 
-SERIAL_ENABLED = True
-
 try:
     import serial
 except ImportError:
     print("Error importing serial module - serial functions disabled")
-    SERIAL_ENABLED = False
 
 
 
@@ -32,8 +29,8 @@ class HodorWatcher:
     def __init__(self,rootdir=None,test_mode=False):
         self._gpio_setup()
         # setup serial port
+        self._serial_enabled = False
         self._port = None
-        self._serial_setup()
         self._event_seqnum = 0
         self._cycles = 0
         self._strobe_seconds = 3
@@ -44,6 +41,7 @@ class HodorWatcher:
         self._logdir = None
         self._log_path = None
         self._logger = None
+        self._devicename = None
         if rootdir is not None:
             self._setrootdir(rootdir)
 
@@ -80,8 +78,14 @@ class HodorWatcher:
             GPIO.setup(16,GPIO.OUT)
 
     def _serial_setup(self):
-        if SERIAL_ENABLED:
-            self._port = serial.Serial("/dev/serial0",baudrate=9600,timeout=1.0)
+        if self._devicename is not None:
+            self._port = serial.Serial(
+                self._devicename,
+                baudrate=9600,
+                timeout=1.0
+            )
+            if self._port is not None:
+                self._serial_enabled = True
 
     def strobe_access(self):
         if GPIO_ENABLED:
@@ -103,7 +107,7 @@ class HodorWatcher:
 
     def serial_readport(self,bytes):
         rcv = ''
-        if SERIAL_ENABLED:
+        if self._serial_enabled:
             rcv = self._port.readline(100)
         return rcv
 
@@ -111,11 +115,14 @@ class HodorWatcher:
         prsr = argparse.ArgumentParser()
         prsr.add_argument('--root',required=True)
         prsr.add_argument('--dots',action='store_true')
+        prsr.add_argument('--dev',help='serial device name/path')
         args = prsr.parse_args(arglist)
         if args.root is not None:
             self._setrootdir(args.root)
         if args.dots:
             self._dots = True
+        if args.dev:
+            self._devicename = args.dev
 
     def scan_for_key(self,received):
         """Cleans up incoming data ('received')
@@ -185,6 +192,7 @@ class HodorWatcher:
 
     def run_main(self,arglist=None):
         self.process_arguments(arglist)
+        self._serial_setup()
         while True:
             if self._dots:
                 self.console_write('.')
