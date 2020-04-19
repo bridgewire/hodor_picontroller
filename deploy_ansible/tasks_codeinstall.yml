@@ -1,0 +1,73 @@
+
+# code installation tasks
+- name: install yaml pip python-serial using apt-get
+  apt:
+    pkg:
+      - python3-virtualenv
+      - python3-venv
+      - python3-yaml
+      - python3-pip
+      - python3-serial
+      - python3-setuptools
+      - wiringpi
+    state: present
+  become: yes
+  become_user: root
+# - name: install setuptools with pip
+#   command: pip install setuptools
+#   args:
+#     creates: /usr/local/lib/python2.7/dist-packages/setuptools/__init__.py
+#   become: yes
+#   become_user: root
+# - name: install wiringpi with pip
+#   command: pip install wiringpi
+#   args:
+#     creates: /usr/local/lib/python2.7/dist-packages/wiringpi.py
+#   become: yes
+#   become_user: root
+- name: drop hodor_controller package files
+  synchronize:
+    src: ../hodor_controller
+    dest: "{{ watcher_install_dir }}"
+    rsync_opts: "--exclude=*.pyc"
+- name: drop hodor_slackbot package files
+  synchronize:
+    src: ../hodor_slackbot
+    dest: "{{ slacker_install_dir }}"
+    rsync_opts: "--exclude=*.pyc"
+- name: drop setup.py install script
+  copy:
+    src: ../setup.py
+    dest: "{{ setuppy_install_dir }}"
+- name: drop example card key file if no card key file
+  copy:
+    src: files/example_bw_cardkey.csv
+    dest: /home/pi
+    force: no
+- name: create controller log dir if needed
+  file:
+    path: "{{ watcher_log_dir }}"
+    state: directory
+    mode: 0755
+- name: create slackbot log dir if needed
+  file:
+    path: "{{ slacker_log_dir }}"
+    state: directory
+    mode: 0755
+- name: install hodor_watcher and hodor_slacker
+  command: python setup.py develop
+  args:
+    creates: /usr/local/bin/hodor_slacker
+    chdir: "{{ setuppy_install_dir }}"
+  become: yes
+  become_user: root
+- name: drop run_hodor_watcher.sh script
+  template:
+    src: scripts/run_hodor_watcher.sh
+    dest: "{{ runhodor_install_dir }}"
+    mode: 0755
+- name: drop run_hodor_slacker.sh script
+  template:
+    src: scripts/run_hodor_slacker.sh
+    dest: "{{ runhodor_install_dir }}"
+    mode: 0755
