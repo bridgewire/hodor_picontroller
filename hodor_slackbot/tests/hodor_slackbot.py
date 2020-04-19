@@ -1,4 +1,6 @@
 
+from __future__ import absolute_import
+
 import datetime
 from hodor_slackbot.hodor_slacker import HodorSlacker
 import json
@@ -30,7 +32,9 @@ class TestHodorSlacker(unittest.TestCase):
         evpath = self.write_test_event('foo.ev','blah')
         got1 = self._ap.record_lastseen(evpath)
         self.assertEqual(got1,True)
-        evtext = open(evpath).read()
+        fh = open(evpath,'r')
+        evtext = fh.read()
+        fh.close()
         self.assertEqual(evtext,'{"message": "blah"}')
         badpath = evpath + 'nonsense'
         self.assertRaises(ValueError,self._ap.record_lastseen,badpath)

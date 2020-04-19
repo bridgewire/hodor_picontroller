@@ -100,9 +100,10 @@ class HodorSlacker:
         out = None
         try:
             if os.path.exists(self._statepath):
-                lastpath = open(self._statepath).read()
-                if os.path.exists(lastpath):
-                    out = lastpath
+                with open(self._statepath,'r') as fh:
+                    lastpath = fh.read()
+                    if os.path.exists(lastpath):
+                        out = lastpath
         except TypeError:
             pass
         return out

@@ -64,10 +64,14 @@ class TestHodorWatcher(unittest.TestCase):
         got1 = self._ap.write_event('event1')
         got2 = self._ap.write_event('event2')
         self.assertEqual(os.path.exists(got1),True)
-        text1 = open(got1).read()
+        fh1 = open(got1,'r')
+        text1 = fh1.read()
+        fh1.close()
         self.assertEqual(json.loads(text1)['message'],'event1')
         self.assertEqual(os.path.exists(got2),True)
-        text2 = open(got2).read()
+        fh2 = open(got2,'r')
+        text2 = fh2.read()
+        fh2.close()
         self.assertEqual(json.loads(text2)['message'],'event2')
 
     def test_eval_access(self):
