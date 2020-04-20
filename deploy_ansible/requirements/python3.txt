@@ -1,0 +1,8 @@
+# This file is used by pip to set up the project environment.
+ansible
+# The 'ansible' package is used to deploy the controller
+# software to a remote Raspberry Pi by copying the
+# software and adding files to use 'systemd' to
+# run the controller programs on boot.
+pyyaml
+# pyyaml allows hodor_watcher to read configuration data in YAML format.

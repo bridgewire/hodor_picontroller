@@ -4,6 +4,7 @@ Raspberry Pi-based door controller
 ## Overview of Contents
 
 * `deploy_ansible` - Scripts to install Hodor onto a Raspberry Pi using Ansible
+* `docs` - documentation
 * `extras` - random utility scripts
 * `hodor_controller` - Door controller program
 * `hodor_slackbot` - Monitor program communicating door accesses to Slack

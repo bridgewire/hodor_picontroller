@@ -13,8 +13,8 @@ run_ansible_adhoc_hostname: projenv/bin/activate Makefile
 #
 #    . projenv/bin/activate
 #
-# projenv/bin/activate: Makefile
-	# mkdir -p projenv
-	# virtualenv projenv
-	# . projenv/bin/activate && pip install --upgrade pip
-	# . projenv/bin/activate && pip install -r requirements.txt
+projenv/bin/activate: Makefile
+	mkdir -p projenv
+	python3 -m venv projenv
+	. projenv/bin/activate && pip install --upgrade pip
+	. projenv/bin/activate && pip install -r requirements/python3.txt
