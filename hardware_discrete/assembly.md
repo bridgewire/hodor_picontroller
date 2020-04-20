@@ -7,10 +7,17 @@
   * RFID Reader (U1, PCB1)
   * Beefcake Relay Control Kit (RLY1)
   * MOSFET Power Control Kit (PCB2)
-* Program and Configure MCUs
-  * Raspberry Pi (MCU1)
-  * Arduino Uno R3 (MCU2)
+  * Power Supply (T1)
+* Program and Configure Raspberry Pi (MCU1)
+  * Initial image installation
+  * Prepare for configuration (SSH)
+  * Configure and Install with Ansible
+  * Unit Testing Raspberry Pi
+* Program and Configure Arduino (MCU2)
+  * Firmware loading with Arduino IDE
+  * Unit Testing the Arduino
 * Breadboard Assembly and Test
+* Preparations for Permanent Installation
 1. Assemble Units
 1. RFID reader test
 2. PCB1 (Beefcake Relay Control Kit)
