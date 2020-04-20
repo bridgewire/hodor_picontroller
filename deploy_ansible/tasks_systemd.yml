@@ -14,3 +14,11 @@
     mode: 0755
   become: yes
   become_user: root
+- name: enable hodor-watcher to start on boot
+  command: systemd enable hodor-watcher
+  become: yes
+  become_user: root
+- name: start hodor-watcher
+  command: systemd start hodor-watcher
+  become: yes
+  become_user: root
