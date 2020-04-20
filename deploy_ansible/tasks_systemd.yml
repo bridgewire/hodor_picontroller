@@ -7,6 +7,11 @@
     mode: 0755
   become: yes
   become_user: root
+- name: enable and start hodor-watcher under systemd
+  systemd:
+    name: hodor-watcher
+    state: started
+    enabled: yes
 - name: install hodor-slacker service unit file
   copy:
     src: files/etc_systemd_system/hodor-slacker.service
@@ -14,11 +19,8 @@
     mode: 0755
   become: yes
   become_user: root
-- name: enable hodor-watcher to start on boot
-  command: systemd enable hodor-watcher
-  become: yes
-  become_user: root
-- name: start hodor-watcher
-  command: systemd start hodor-watcher
-  become: yes
-  become_user: root
+- name: enable and start hodor-slacker under systemd
+  systemd:
+    name: hodor-slacker
+    state: started
+    enabled: yes
