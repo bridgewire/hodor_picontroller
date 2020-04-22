@@ -11,6 +11,8 @@
 | PCB2 | 1 | Sparkfun MOSFET Power Control Kit |
 | RLY1 | 1 | Sparkfun Beefcake Relay Control Kit (ver 2.0) (Sparkfun part number KIT-13815) |
 | BTN1 | 1 | Large button w/LED (Adafruit Product #1185 or #1190, Sparkfun #COM-09181, or equivalent) |
+| L1 | 1 | 12V Fail Safe electric strike |
+| L2 | 1 | 12V electromagnetic lock |
 
 ## Recommended Extra Materials for assembly and testing
 

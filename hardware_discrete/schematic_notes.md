@@ -40,7 +40,8 @@ MCU2 (Arduino) connection points:
 | D13 | integrated LED |
 | D5  | unlock pin (assert high) |
 | D4  | accept pin (assert high) from RPi |
-
+| D3  | door switch input |
+| D2  | door LED enable (assert high) |
 **NOTE** : The VIN pin required for connection to power supply T1.  The VIN pin may be unused if Arduino is powered by USB or barrel connector
 
 RLY1 (Beefcake Relay Control Kit) connection points:
@@ -76,3 +77,36 @@ Device (2-terminal) connector:
 | --- | --- |
 | + | connect to controlled device |
 | - | connect to ground |
+
+5V rail connections (T1:V1):
+* `PCB2:+ (system side)`
+* `RLY1:5V`
+* `MCU2:VIN`
+* `MCU1:+5v(2,4)`
+* `T1:V1`
+
+12V rail connections (T1:V2):
+* `T1:V2`
+* `RLY1:COM`
+* `BTN1LED:+`
+
+Ground connections (T1:GND):
+* `T1:GND`
+* `RLY1:GND`
+* `MCU1:GND`
+* `MCU2:GND`
+* `PCB2:- (system side)`
+* `PCB2:- (device side)`
+* `L1`
+* `L2`
+* `BTN1`
+
+Point-to-Point connections:
+* `PCB1:USB   <=> MCU1:USB (USB Cable)`
+* `BTN1LED:-   => PCB2:+ (device side)`
+* `RLY1:NO     => L1`
+* `RLY1:NC     => L2`
+* `RLY1:CTRL   => MCU2:D5`
+* `MCU2:D2     => PCB2:C (system side)`
+* `BTN1        => MCU2:D3`
+* `MCU1:GPIO16 => MCU2:D4`
