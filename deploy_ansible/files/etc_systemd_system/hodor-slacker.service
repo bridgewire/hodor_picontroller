@@ -3,8 +3,8 @@ Description=Hodor Slacker
 After=network.target
 
 [Service]
-ExecStart=/bin/bash /home/pi/run_hodor_slacker.sh
-WorkingDirectory=/home/pi
+ExecStart=/bin/bash {{ runhodor_install_dir }}/run_hodor_slacker.sh
+WorkingDirectory={{ slacker_run_dir }}
 StandardOutput=inherit
 StandardError=inherit
 Restart=always

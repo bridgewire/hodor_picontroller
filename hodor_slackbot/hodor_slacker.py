@@ -44,7 +44,8 @@ class HodorSlacker:
             self._slack_ep_url = cfg_obj['slack_endpoint']
         # setup logging
         FORMAT='%(asctime)-15s %(message)s'
-        self._log_path = os.path.join(self._rootdir,self._logbasename)
+        logdir = os.path.join(self._rootdir,'log')
+        self._log_path = os.path.join(logdir,self._logbasename)
         self._logger = None
         logging.basicConfig(
             filename=self._log_path,

@@ -46,12 +46,12 @@
     force: no
 - name: create controller log dir if needed
   file:
-    path: "{{ watcher_log_dir }}"
+    path: "{{ watcher_run_dir }}/log"
     state: directory
     mode: 0755
 - name: create slackbot log dir if needed
   file:
-    path: "{{ slacker_log_dir }}"
+    path: "{{ slacker_run_dir }}/log"
     state: directory
     mode: 0755
 - name: drop run_hodor_watcher.sh script

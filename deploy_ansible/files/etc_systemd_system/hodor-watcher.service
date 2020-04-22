@@ -3,8 +3,8 @@ Description=Hodor Watcher
 After=network.target
 
 [Service]
-ExecStart=/bin/bash /home/pi/run_hodor_watcher.sh
-WorkingDirectory=/home/pi
+ExecStart=/bin/bash {{ runhodor_install_dir }}/run_hodor_watcher.sh
+WorkingDirectory={{ watcher_run_dir }}
 StandardOutput=inherit
 StandardError=inherit
 Restart=always

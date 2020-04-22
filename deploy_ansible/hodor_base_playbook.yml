@@ -3,10 +3,8 @@
   vars:
     setuppy_install_dir: /home/pi/hodor_picontroller
     watcher_install_dir: /home/pi/hodor_picontroller
-    watcher_log_dir: /home/pi/log
     watcher_run_dir: /home/pi
     slacker_install_dir: /home/pi/hodor_picontroller
-    slacker_log_dir: /home/pi/log
     slacker_run_dir: /home/pi
     runhodor_install_dir: /home/pi
   remote_user: pi

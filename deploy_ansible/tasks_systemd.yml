@@ -1,10 +1,12 @@
 # tasks for installing files to run hodor programs as system
 # services under systemd
 - name: install hodor-watcher service unit file
-  copy:
+  template:
     src: files/etc_systemd_system/hodor-watcher.service
     dest: /etc/systemd/system
     mode: 0755
+    owner: root
+    group: root
   become: yes
   become_user: root
 - name: enable and start hodor-watcher under systemd
@@ -13,10 +15,12 @@
     state: started
     enabled: yes
 - name: install hodor-slacker service unit file
-  copy:
+  template:
     src: files/etc_systemd_system/hodor-slacker.service
     dest: /etc/systemd/system
     mode: 0755
+    owner: root
+    group: root
   become: yes
   become_user: root
 - name: enable and start hodor-slacker under systemd

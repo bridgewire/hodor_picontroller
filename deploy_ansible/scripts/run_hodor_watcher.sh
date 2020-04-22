@@ -1,6 +1,6 @@
 #! /bin/bash
 
-watcherlogfile="{{ watcher_log_dir }}/run_hodor_watcher.log"
+watcherlogfile="{{ watcher_run_dir }}/log/run_hodor_watcher.log"
 
 export PYTHONUNBUFFERED=1
 
