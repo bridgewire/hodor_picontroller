@@ -21,8 +21,6 @@
     mode: 0755
     owner: root
     group: root
-  become: yes
-  become_user: root
 - name: enable and start hodor-slacker under systemd
   systemd:
     name: hodor-slacker
@@ -33,6 +31,22 @@
     src: files/etc_logrotate.d/hodor
     dest: /etc/logrotate.d/hodor
     mode: 0644
+    owner: root
+    group: root
+- name: install cron job to cull old events (test)
+  template:
+    src: files/etc_cron.hourly_hodor-cullevents
+    dest: /etc/cron.hourly/hodor-cullevents
+    mode: 0755
+    owner: root
+    group: root
+  become: yes
+  become_user: root
+- name: install cron job to cull old events
+  template:
+    src: files/etc_cron.daily_hodor-cullevents
+    dest: /etc/cron.daily/hodor-cullevents
+    mode: 0755
     owner: root
     group: root
   become: yes
