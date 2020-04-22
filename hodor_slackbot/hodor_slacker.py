@@ -6,6 +6,7 @@ import os
 import re
 import subprocess
 import sys
+import time
 import yaml
 
 
@@ -138,6 +139,10 @@ class HodorSlacker:
 
     def run_main(self,arglist=None):
         self.process_arguments(arglist)
+        if self._slack_ep_url is None:
+            sys.stderr.write('no slack URL defined. Nothing to do.\n')
+            time.sleep(120)
+            return 0
         message_count = 0
         while True:
             if self._countmax is not None and message_count >= self._countmax:
