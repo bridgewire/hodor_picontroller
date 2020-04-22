@@ -45,14 +45,17 @@ class HodorSlacker:
         # setup logging
         FORMAT='%(asctime)-15s %(message)s'
         logdir = os.path.join(self._rootdir,'log')
-        self._log_path = os.path.join(logdir,self._logbasename)
-        self._logger = None
-        logging.basicConfig(
-            filename=self._log_path,
-            level=logging.INFO,
-            format=FORMAT
-        )
-        self._logger = logging.getLogger('hodor_watcher')
+        if os.path.exists(logdir):
+            self._log_path = os.path.join(logdir,self._logbasename)
+            self._logger = None
+            logging.basicConfig(
+                filename=self._log_path,
+                level=logging.INFO,
+                format=FORMAT
+            )
+            self._logger = logging.getLogger('hodor_watcher')
+        else:
+            sys.stderr.write('Warning: slacker cannot find log file dir\n')
 
     def process_arguments(self,arglist=None):
         prsr = argparse.ArgumentParser()

@@ -21,6 +21,10 @@ class TestHodorWatcher(unittest.TestCase):
         self.assertEqual(self._ap.scan_for_key('\x03'),None)
         self.assertEqual(self._ap.scan_for_key(' blah '),'BLAH')
         self.assertEqual(self._ap.scan_for_key('\x02blat \r\n'),'BLAT')
+        self.assertEqual(self._ap.scan_for_key(b''),None)
+        self.assertEqual(self._ap.scan_for_key(b'\x03'),None)
+        self.assertEqual(self._ap.scan_for_key(b' blah '),'BLAH')
+        self.assertEqual(self._ap.scan_for_key(b'\x02blat \r\n'),'BLAT')
 
     def test_readdb(self):
         dbtext1 = """KEY,NAME,ALLOW

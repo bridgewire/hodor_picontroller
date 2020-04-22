@@ -128,10 +128,15 @@ class HodorWatcher:
         """Cleans up incoming data ('received')
 
         Returns cleaned data or None if nothing left to return"""
-        if len(received) == 0 or received == '\x03':
+        checkit = None
+        try:
+            checkit = received.decode('utf-8')
+        except (AttributeError,UnicodeDecodeError):
+            checkit = received
+        if len(checkit) == 0 or checkit == '\x03':
             return None
-        clean_received = re.sub(r'[\002\003]','',received.strip().upper())
-        return clean_received
+        clean_checkit = re.sub(r'[\002\003]','',checkit.strip().upper())
+        return clean_checkit
 
     def find_user(self,user_database,the_key):
         """Finds user given key
