@@ -28,3 +28,12 @@
     name: hodor-slacker
     state: started
     enabled: yes
+- name: install logrotate config
+  template:
+    src: files/etc_logrotate.d/hodor
+    dest: /etc/logrotate.d/hodor
+    mode: 0644
+    owner: root
+    group: root
+  become: yes
+  become_user: root

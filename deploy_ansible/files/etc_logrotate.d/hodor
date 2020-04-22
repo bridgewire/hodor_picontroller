@@ -1,0 +1,8 @@
+/home/pi/log/*hodor_*.log {
+	rotate 9
+	daily
+  postrotate
+    /bin/systemctl restart hodor-watcher
+    /bin/systemctl restart hodor-slacker
+  endscript
+}
