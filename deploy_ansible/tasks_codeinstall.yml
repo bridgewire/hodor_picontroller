@@ -17,6 +17,9 @@
   command: pip3 install rpi.gpio
   become: yes
   become_user: root
+# hodor Python package files dropped in manner
+# resembling a git checkout to support editing
+# and testing in situ
 - name: drop hodor_controller package files
   synchronize:
     src: ../hodor_controller
