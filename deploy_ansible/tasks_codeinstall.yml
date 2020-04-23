@@ -38,15 +38,6 @@
   copy:
     src: ../unit_test_suite.py
     dest: "{{ setuppy_install_dir }}"
-- name: drop example card key file
-  copy:
-    src: files/example_bw_cardkey.csv
-    dest: /home/pi
-- name: drop example card key file if no card key file
-  copy:
-    src: files/example_bw_cardkey.csv
-    dest: /home/pi/bw_cardkey.csv
-    force: no
 - name: create controller log dir if needed
   file:
     path: "{{ watcher_run_dir }}/log"
@@ -56,8 +47,21 @@
   file:
     path: "{{ slacker_run_dir }}/log"
     state: directory
-    mode: 0777
-    # NOTE : mode 0777 used for log dir to allow logrotate to work
+    mode: 0755
+- name: create run_hodor scripts dir if needed
+  file:
+    path: "{{ runhodor_install_dir }}"
+    state: directory
+    mode: 0755
+- name: drop example card key file
+  copy:
+    src: files/example_bw_cardkey.csv
+    dest: "{{ watcher_run_dir }}"
+- name: drop example card key file if no card key file
+  copy:
+    src: files/example_bw_cardkey.csv
+    dest: "{{ watcher_run_dir }}/bw_cardkey.csv"
+    force: no
 - name: drop run_hodor_watcher.sh script
   template:
     src: scripts/run_hodor_watcher.sh

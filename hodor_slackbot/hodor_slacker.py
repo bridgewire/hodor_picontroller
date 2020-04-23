@@ -18,7 +18,7 @@ class HodorSlacker:
         self._statepath = None
         self._statefile = '.hodor_lastslack'
         self._log_path = None
-        self._logbasename ='hodor_slacklog.txt'
+        self._logbasename ='hodor_slacklog.log'
         self._logger = None
         self._countmax = None
         if setroot is not None and os.path.exists(setroot):

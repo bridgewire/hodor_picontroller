@@ -3,10 +3,10 @@
   vars:
     setuppy_install_dir: /home/pi/hodor_picontroller
     watcher_install_dir: /home/pi/hodor_picontroller
-    watcher_run_dir: /home/pi
+    watcher_run_dir: /home/pi/hodor
     slacker_install_dir: /home/pi/hodor_picontroller
-    slacker_run_dir: /home/pi
-    runhodor_install_dir: /home/pi
+    slacker_run_dir: /home/pi/hodor
+    runhodor_install_dir: /home/pi/hodor/scripts
   remote_user: pi
   tasks:
     - import_tasks: tasks_codeinstall.yml

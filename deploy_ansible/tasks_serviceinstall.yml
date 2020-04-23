@@ -1,8 +1,31 @@
 # tasks for installing files to run hodor programs as system
 # services under systemd
+- name: stop hodor-watcher if running
+  systemd:
+    name: hodor-watcher
+    state: stopped
+  ignore_errors: yes
+  become: yes
+  become_user: root
+- name: stop hodor-slacker if running
+  systemd:
+    name: hodor-slacker
+    state: stopped
+  ignore_errors: yes
+  become: yes
+  become_user: root
 - name: install hodor-watcher service unit file
   template:
     src: files/etc_systemd_system/hodor-watcher.service
+    dest: /etc/systemd/system
+    mode: 0755
+    owner: root
+    group: root
+  become: yes
+  become_user: root
+- name: install hodor-slacker service unit file
+  template:
+    src: files/etc_systemd_system/hodor-slacker.service
     dest: /etc/systemd/system
     mode: 0755
     owner: root
@@ -14,32 +37,22 @@
     name: hodor-watcher
     state: started
     enabled: yes
-- name: install hodor-slacker service unit file
-  template:
-    src: files/etc_systemd_system/hodor-slacker.service
-    dest: /etc/systemd/system
-    mode: 0755
-    owner: root
-    group: root
+    daemon_reload: yes
+  become: yes
+  become_user: root
 - name: enable and start hodor-slacker under systemd
   systemd:
     name: hodor-slacker
     state: started
     enabled: yes
+    daemon_reload: yes
+  become: yes
+  become_user: root
 - name: install logrotate config
   template:
     src: files/etc_logrotate.d/hodor
     dest: /etc/logrotate.d/hodor
     mode: 0644
-    owner: root
-    group: root
-  become: yes
-  become_user: root
-- name: install cron job to cull old events (test)
-  template:
-    src: files/etc_cron.hourly_hodor-cullevents
-    dest: /etc/cron.hourly/hodor-cullevents
-    mode: 0755
     owner: root
     group: root
   become: yes

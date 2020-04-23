@@ -108,6 +108,53 @@ Once the aforementioned preparations are complete, one should be able to perform
 ```
 The deployment process will prepare itself by creating a project-local Python environment, installing Ansible into it, then running the ansible playbook in `hodor_base_playbook.yml`.
 
+### Hodor Working Directory
+
+The working files for running `hodor_watcher` and `hodor_slacker` are contained
+in a single directory (`/home/pi/hodor` by default) organized as follows:
+
+```
+    /home/pi/hodor
+    ├── bw_cardkey.csv
+    ├── events
+    │   ├── *.event
+    ├── example_bw_cardkey.csv
+    ├── log
+    │   ├── hodor_run_slacker.log
+    │   ├── hodor_run_watcher.log
+    │   ├── hodor_slacklog.log
+    │   └── hodor_watcher.log
+    └── scripts
+        ├── run_hodor_slacker.sh
+        └── run_hodor_watcher.sh
+```
+At the top level of this directory tree are the files `bw_cardkey.csv` and
+`example_bw_cardkey.csv`, dropped by the installer.  `example_bw_cardkey.csv`
+is always rewritten, but if `bw_cardkey.csv` already exists the installer
+does not overwrite it, so that any user edits are preserved.  `bw_cardkey.csv`
+provides a small example access list to help get the user started, but the
+user is expected to replace this with an access list of their own making.
+
+Inside of this directory three subdirectories are created:
+* `events` - event files created by `hodor_watcher` to allow other programs
+to monitor door activity.
+* `log` - log files
+* `scripts` - contains the wrapper scripts used to run the programs under `systemd`
+
+### System Integration and Support
+
+The installer configures service files under `systemd` to run `hodor_watcher`
+and `hodor_slacker`, which ensures that the programs are started on boot
+and are restarted in case of errors.  The service files `hodor-watcher.service`
+and `hodor-slacker.service` may be found in `/etc/systemd/system`.
+
+The file `/etc/logrotate.d/hodor` is installed to rotate the log files in
+the log directory (`/home/pi/log` by default) using `logrotate`.
+
+The event files written by `hodor_watcher` are managed by a cron job installed
+into `/etc/cron.daily/hodor-cullevents` to prevent them from filling the
+filesystem.
+
 ## Development Guidelines
 
 ### Developing and Testing off the Pi

@@ -1,6 +1,6 @@
 #! /bin/bash
 
-slackerlogfile="{{ slacker_run_dir }}/log/run_hodor_slacker.log"
+slackerlogfile="{{ slacker_run_dir }}/log/hodor_run_slacker.log"
 
 export PYTHONUNBUFFERED=1
 
