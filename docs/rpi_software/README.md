@@ -1,6 +1,6 @@
 
 
-# Raspberry Pi Software Technical Summary
+# Door Controller Raspberry Pi Software Technical Summary
 
 * Synopsis
 * Operation
