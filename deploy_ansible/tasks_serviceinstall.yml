@@ -33,6 +33,8 @@
     mode: 0644
     owner: root
     group: root
+  become: yes
+  become_user: root
 - name: install cron job to cull old events (test)
   template:
     src: files/etc_cron.hourly_hodor-cullevents

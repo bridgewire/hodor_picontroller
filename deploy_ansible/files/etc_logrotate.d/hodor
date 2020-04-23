@@ -1,4 +1,22 @@
-/home/pi/log/*hodor_*.log {
+/home/pi/log/hodor_*.log {
+  rotate 9
+  su pi pi
+  daily
+  postrotate
+    /bin/systemctl restart hodor-watcher
+    /bin/systemctl restart hodor-slacker
+  endscript
+}
+/home/pi/log/run_hodor_*.log {
+  rotate 9
+  su pi pi
+  daily
+  postrotate
+    /bin/systemctl restart hodor-watcher
+    /bin/systemctl restart hodor-slacker
+  endscript
+}
+/home/pi/log/hodor_slacklog.txt {
   rotate 9
   su pi pi
   daily
