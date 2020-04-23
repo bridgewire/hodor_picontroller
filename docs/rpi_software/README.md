@@ -168,6 +168,9 @@ One can run the programs locally using:
 
     python3 hodor_slackbox/hodor_slacker.py
 ```
+When running in development mode, log and event files will be written to
+paths relative to the current working directory where the programs are run.
+
 The software includes a unit test suite that tests the application logic
 without requiring a Raspberry Pi or connected hardware.  
 The dependencies required for running the test suite are provided by
