@@ -1,6 +1,6 @@
 
 run_ansible_install: projenv/bin/activate Makefile
-	ansible-playbook -i inv.yml hodor_base_playbook.yml
+	. projenv/bin/activate && ansible-playbook -i inv.yml hodor_base_playbook.yml
 	# . projenv/bin/activate && ansible-playbook -i inv.yml hodor_base_playbook.yml
 
 # not really used, just to remind myself how ad hoc commands are run

@@ -1,4 +1,4 @@
-{{ watcher_run_dir }}/log/hodor_*.log {
+{{ watcher_run_dir }}/log/hodor*watcher.log {
   rotate 9
   su pi pi
   daily
@@ -6,7 +6,7 @@
     /bin/systemctl restart hodor-watcher
   endscript
 }
-{{ slacker_run_dir }}/log/hodor_*.log {
+{{ slacker_run_dir }}/log/hodor*slacker.log {
   rotate 9
   su pi pi
   daily
