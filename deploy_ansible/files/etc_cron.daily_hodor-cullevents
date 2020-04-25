@@ -1,4 +1,4 @@
 #! /bin/sh
 # remove old events to conserve inodes and diskspace
-find {{ watcher_run_dir }}/events -name \*.event -mtime +2 -exec /bin/rm '{}' \;
+find {{ watcher_run_dir }}/events -name \*.event -mtime +1 -exec /bin/rm '{}' \;
 exit 0
