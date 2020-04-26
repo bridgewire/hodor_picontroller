@@ -43,6 +43,11 @@
     path: "{{ watcher_run_dir }}/log"
     state: directory
     mode: 0755
+- name: create controller events dir if needed
+  file:
+    path: "{{ watcher_run_dir }}/events"
+    state: directory
+    mode: 0777
 - name: create slackbot log dir if needed
   file:
     path: "{{ slacker_run_dir }}/log"
