@@ -8,14 +8,14 @@
   * Beefcake Relay Control Kit (RLY1)
   * MOSFET Power Control Kit (PCB2)
   * Power Supply (T1)
+* Program and Configure Arduino (MCU2)
+  * Firmware loading with Arduino IDE
+  * Unit Testing the Arduino
 * Program and Configure Raspberry Pi (MCU1)
   * Initial image installation
   * Prepare for configuration (SSH)
   * Configure and Install with Ansible
   * Unit Testing Raspberry Pi
-* Program and Configure Arduino (MCU2)
-  * Firmware loading with Arduino IDE
-  * Unit Testing the Arduino
 * Breadboard Assembly and Test
 * Preparations for Permanent Installation
 1. Assemble Units
@@ -55,6 +55,22 @@ Assemble the kit per Sparkfun instructions.  To test the MOSFET, use an ohmmeter
 to confirm that resistance is high (>1MOhm) between the "+" and "-" terminals
 on the "Device" side of the unit, and the resistance drops when the "System"
 side is powered and a logic high voltage is applied to the "C" terminal.
+
+## Arduino Setup
+
+* To program the Arduino (Uno R3) use the Arduino IDE to upload the sketch [`arduino/sketches/doorproto_v6_control`](arduino/sketches/doorproto_v6_control/doorproto_v6_control.ino) onto an Arduino Uno R3 or other compatible board.
+
+To test the programmed board one can do the following:
+
+* Connect D4 to +5V ("accept" input from the Raspberry Pi)
+* Ground D2 (the door button switch input line)
+
+In either case D5 should raise to +5V for five seconds and D2 should flash for the same period of time.
+
+## Raspberry Pi Setup
+
+To set up the Raspberry Pi please follow the instructions in the [Raspberry Pi Readme](docs/rpi_software/README.md) in the `docs/rpi_software`
+directory.
 
 ## Appendix
 

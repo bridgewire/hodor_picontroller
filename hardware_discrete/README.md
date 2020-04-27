@@ -15,6 +15,14 @@ unable to exit a building which can result in injury or death
 in an emergency situation.  Implementers are urged strongly to
 exercise caution.
 
+## Overview of Directory Contents
+
+* `README.md` - this file
+* `assembly.md` - assembly instructions
+* `BOM.md` - Bill of Materials
+* `schematic_notes.md` - summary of component connections
+* `figures` - directory of figures including wiring diagram
+
 ## Access Control Overview
 
 Bridgewire manages access to the shop with the assistance of an
@@ -78,11 +86,7 @@ firmware program which actuates the lock relay when given a
 signal either by the Raspberry Pi or when the exit button is
 pressed.
 
-
-## The Bridgewire Door and Access Control Overview
-
-The Bridgewire door
-## Features Overview
+### Harware Features
 
 **RFID Card Reader** - The RFID card reader is part of the door
 controller's access control mechanism.  A junction box on the building
@@ -114,4 +118,7 @@ ferromagnetic plate mounted to the door.  When access is permitted
 power is removed from the electromagnet allowing the door to be
 opened
 
-**Exit Button** -
+**Exit Button** - The button triggers a one-shot timer to allow users
+to use the exit without having to continuously hold down the button.
+This improves accessibility and safety for using the exit.  The button
+also includes an LED for user feedback and flashes when pressed.

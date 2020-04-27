@@ -12,7 +12,6 @@ Raspberry Pi-based door controller
 * `setup.py` - installation script for `hodor_controller` and `hodor_slackbot`
 * `unit_test_suite.py` - test script for `hodor_controller` and `hodor_slackbot`
 
-*NOTE*: Description of the RFID reader and supporting hardware is TBD
 
 For information on the Raspberry Pi software, including the `hodor_watcher`
 program in `hodor_controller` and the `hodor_slacker` program in
