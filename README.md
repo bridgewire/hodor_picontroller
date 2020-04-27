@@ -12,6 +12,8 @@ Raspberry Pi-based door controller
 * `setup.py` - installation script for `hodor_controller` and `hodor_slackbot`
 * `unit_test_suite.py` - test script for `hodor_controller` and `hodor_slackbot`
 
+For information on the hardware, please see [hardware README](docs/hardware_discrete/README.md)
+in the `docs/hardware_discrete` directory.
 
 For information on the Raspberry Pi software, including the `hodor_watcher`
 program in `hodor_controller` and the `hodor_slacker` program in

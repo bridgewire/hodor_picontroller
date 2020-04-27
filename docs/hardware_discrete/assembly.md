@@ -16,8 +16,6 @@
   * Prepare for configuration (SSH)
   * Configure and Install with Ansible
   * Unit Testing Raspberry Pi
-* Breadboard Assembly and Test
-* Preparations for Permanent Installation
 1. Assemble Units
 1. RFID reader test
 2. PCB1 (Beefcake Relay Control Kit)
@@ -71,6 +69,16 @@ In either case D5 should raise to +5V for five seconds and D2 should flash for t
 
 To set up the Raspberry Pi please follow the instructions in the [Raspberry Pi Readme](docs/rpi_software/README.md) in the `docs/rpi_software`
 directory.
+
+To test the Raspbery Pi software two options are available.  One option is to
+hook up the RFID reader using a USB cable and use a card to trigger the reader.
+The other option is to connect an Arduino loaded with the test sketch [`hodor_inputmocker`](../../arduino/sketches/hodor_inputmocker).  For details on this option consult the
+[Arduino README](../../arduino/README.md).
+
+To monitor the response of the Raspberry Pi several options exist.
+
+* GPIO pin 16 should strobe high
+* Event files should be written to the directory `/home/pi/hodor/events`.
 
 ## Appendix
 
