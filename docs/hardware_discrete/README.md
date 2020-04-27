@@ -18,10 +18,10 @@ exercise caution.
 ## Overview of Directory Contents
 
 * `README.md` - this file
-* `assembly.md` - assembly instructions
-* `BOM.md` - Bill of Materials
-* `schematic_notes.md` - summary of component connections
-* `figures` - directory of figures including wiring diagram
+* [`assembly.md`](assembly.md) - assembly instructions
+* [`BOM.md`](BOM.md) - Bill of Materials
+* [`schematic_notes.md`](schematic_notes.md) - summary of component connections
+* [`figures`](figures) - directory of figures including wiring diagram
 
 ## Access Control Overview
 
