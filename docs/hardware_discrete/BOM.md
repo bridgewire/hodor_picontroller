@@ -8,7 +8,6 @@
 | MCU2 | 1 | Arduino Uno R3 or equivalent |
 | U1 | 1 | Sparkfun RFID Reader ID-12LA (WRL-11827) or ID-20LA (WRL-11828) |
 | PCB1 | 1 | Sparkfun RFID USB Reader (Sparkfun part number SEN-09963) |
-| PCB2 | 1 | Sparkfun MOSFET Power Control Kit |
 | RLY1 | 1 | Sparkfun Beefcake Relay Control Kit (ver 2.0) (Sparkfun part number KIT-13815) |
 | BTN1 | 1 | Large button w/LED (Adafruit Product #1185 or #1190, Sparkfun #COM-09181, or equivalent) |
 | BS1, BS2 | 2 | 4-Position Barrier Strip (Clinch Connectors p/n 4-140, Jameco P/N 230990, or equivalent) |

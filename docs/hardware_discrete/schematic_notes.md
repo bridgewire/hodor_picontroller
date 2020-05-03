@@ -62,24 +62,7 @@ High-voltage (larger, blue) connection points:
 | NO | Relay Normally Open contact |
 | COM | Relay common contact |
 
-PCB2 (MOSFET Power Control Kit) connection points:
-
-System (3-terminal) connector:
-
-| Pin Name | Description |
-| --- | --- |
-| C | Control signal |
-| - | Ground rail |
-| + | Power (5V) rail |
-
-Device (2-terminal) connector:
-| Pin Name | Description |
-| --- | --- |
-| + | connect to controlled device |
-| - | connect to ground |
-
 5V rail connections (T1:V1):
-* `PCB2:+ (system side)`
 * `RLY1:5V`
 * `MCU2:VIN`
 * `MCU1:+5v(2,4)`
@@ -88,22 +71,20 @@ Device (2-terminal) connector:
 12V rail connections (T1:V2):
 * `T1:V2`
 * `RLY1:COM`
-* `BTN1LED:+`
 
 Ground connections (T1:GND):
 * `T1:GND`
 * `RLY1:GND`
 * `MCU1:GND`
 * `MCU2:GND`
-* `PCB2:- (system side)`
-* `PCB2:- (device side)`
 * `L1`
 * `L2`
 * `BTN1`
++ `BTN1LED:-`
 
 Point-to-Point connections:
 * `PCB1:USB   <=> MCU1:USB (USB Cable)`
-* `BTN1LED:-   => PCB2:+ (device side)`
+* `MCU2:D3`    => `BTN1LED:+`
 * `RLY1:NO     => L1`
 * `RLY1:NC     => L2`
 * `RLY1:CTRL   => MCU2:D5`
