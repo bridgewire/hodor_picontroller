@@ -65,6 +65,31 @@ To test the programmed board one can do the following:
 
 In either case D5 should raise to +5V for five seconds and D2 should flash for the same period of time.
 
+## Assemble Test Circuit
+
+Begin assembly by assembling the circuit per the [test circuit schematic](figures/discrete_arduino_test_ckt_202004302058.pdf).
+This broadly involes the following steps:
+
+* wiring the Arduino to the power supply
+* connecting the exit button switch and LED.
+* Connect Arduino pin D5 to an LED and resistor to ground instead of to the relay RLY1.
+* Connect Arduino pin D4 directly to ground.  This emulates the presence of Raspberry Pi GPIO output 16, which pulls D4 low.
+
+This leave MCU1 (the Raspberry Pi) and PCB1 (the RFID reader) unconnected,
+but the circuit still can be tested in one of two ways:
+
+* Press the exit button.  The LED on the button will light and the test LED wired to D5 will also light indicating that the relay control line has been activated.
+
+* Disconnect Arduino pin D4 from ground.  This emulates the Raspberry Pi pulling GPIO 16 high when an authorized card has been scanned.
+
+In either case, the exit button LED should light along with the LED connected to Arduino pin D4.
+
+## Add Relay Connections (Optional)
+
+A further incremental assembly may be performed at this point by adding the relay and connecting the magnetic lock and electric strike.  This is basically the complete assembled circuit minus MCU1 and PCB1.  One may consult the [full circuit schematic](figures/discrete_hardware_202004302058.pdf) as a reference.
+
+To complete this partial assembly or the assembly of the full circuit one should make sure the ground connection to Arduino pin D4 is removed or it will interfere with relay control.  The test LED connected to pin D5 may be left in place if so desired, but it will be redundant with the LED installed on the RLY1 board.
+
 ## Raspberry Pi Setup
 
 To set up the Raspberry Pi please follow the instructions in the [Raspberry Pi Readme](docs/rpi_software/README.md) in the `docs/rpi_software`
@@ -79,6 +104,10 @@ To monitor the response of the Raspberry Pi several options exist.
 
 * GPIO pin 16 should strobe high
 * Event files should be written to the directory `/home/pi/hodor/events`.
+
+## Full Circuit Assembly
+
+Once the Raspberry Pi is tested one can connect GPIO 16 to Arduino pin D4 and connect PCB1 to the Raspberry Pi via a USB cable.  If one did the test circuit assembly described previously make sure the direct ground connection to Arduino D4 is removed otherwise it will interfere with relay control.
 
 ## Appendix
 
