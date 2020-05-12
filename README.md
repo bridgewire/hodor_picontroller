@@ -1,5 +1,6 @@
 # hodor_picontroller
-Raspberry Pi-based door controller
+
+This repository contains code and support documents for Bridgewire's Raspberry Pi-based door controller.  There are many like it [see below](#Prior Art), but this one is Bridgewire's.  The materials below are related to an update of the controller providing access to Bridgewire's shop, based on an original design from a previous member.  This repository represents a proposed update both for the door's functionality and an enhancement of the controller's design documentation, including a bill of materials along with assembly and test instructions.  These materials are provided so that future maintainers may have resources to more easily maintain and extend the controller.
 
 ## Overview of Contents
 
@@ -32,3 +33,11 @@ instead of a set of unshielded wires
 to exit the office
 * The Raspberry Pi software installation has been updated to make it
 easier to maintain and its installation has been automated
+
+## Prior Art
+
+As the original designer is out of contact, the precise provenance of the original design for Bridgewire's door controller is not known.  That said, other projects of a similar nature may be found on the web including:
+
+* [Pi-Lock](http://www.pi-lock.com/)
+* [Simple RFID Door Lock System](https://hackaday.com/2016/09/25/simple-rfid-door-lock-system/) on [Hackaday](https://hackaday.com)
+* [Build Your Own Smartphone-Connected Door Lock With a Raspberry Pi](https://lifehacker.com/build-your-own-smartphone-connected-door-lock-with-a-ra-1791424901) on [Lifehacker](https://lifehacker.com/)
