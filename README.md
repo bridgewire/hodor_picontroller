@@ -1,6 +1,6 @@
 # hodor_picontroller
 
-This repository contains code and support documents for Bridgewire's Raspberry Pi-based door controller.  There are many like it [see below](#Prior Art), but this one is Bridgewire's.  The materials below are related to an update of the controller providing access to Bridgewire's shop, based on an original design from a previous member.  This repository represents a proposed update both for the door's functionality and an enhancement of the controller's design documentation, including a bill of materials along with assembly and test instructions.  These materials are provided so that future maintainers may have resources to more easily maintain and extend the controller.
+This repository contains code and support documents for Bridgewire's Raspberry Pi-based door controller.  There are many like it [see below](#prior-art), but this one is Bridgewire's.  The materials below are related to an update of the controller providing access to Bridgewire's shop, based on an original design from a previous member.  This repository represents a proposed update both for the door's functionality and an enhancement of the controller's design documentation, including a bill of materials along with assembly and test instructions.  These materials are provided so that future maintainers may have resources to more easily maintain and extend the controller.
 
 ## Overview of Contents
 
@@ -34,7 +34,7 @@ to exit the office
 * The Raspberry Pi software installation has been updated to make it
 easier to maintain and its installation has been automated
 
-## Prior Art
+# Prior Art
 
 As the original designer is out of contact, the precise provenance of the original design for Bridgewire's door controller is not known.  That said, other projects of a similar nature may be found on the web including:
 
