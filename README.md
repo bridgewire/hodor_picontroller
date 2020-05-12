@@ -36,7 +36,7 @@ easier to maintain and its installation has been automated
 
 # Prior Art
 
-As the original designer is out of contact, the precise provenance of the original design for Bridgewire's door controller is not known.  That said, other projects of a similar nature may be found on the web including:
+As the original designer is currently out of contact, the precise provenance of the original design for Bridgewire's door controller is not known.  That said, other projects of a similar nature may be found on the web including:
 
 * [Pi-Lock](http://www.pi-lock.com/)
 * [Simple RFID Door Lock System](https://hackaday.com/2016/09/25/simple-rfid-door-lock-system/) on [Hackaday](https://hackaday.com)
