@@ -88,6 +88,6 @@ Point-to-Point connections:
 * `RLY1:NO     => L1`
 * `RLY1:NC     => L2`
 * `RLY1:CTRL   => MCU2:D5`
-* `MCU2:D2     => PCB2:C (system side)`
+* `MCU2:D2     => BTN1SW:+`
 * `BTN1        => MCU2:D3`
 * `MCU1:GPIO16 => MCU2:D4`
