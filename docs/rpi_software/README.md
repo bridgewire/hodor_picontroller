@@ -84,6 +84,8 @@ and posted to the slack channel per the configuration file.
 
 ## Software Installation
 
+The software installation process uses [Ansible](https://ansible.com) to install the controller software onto a running Raspberry Pi running [Raspbery Pi OS](https://www.raspberrypi.org/software/) (based on Debian "Jessie" or later).  To bootstrap a new system one can start by following the instructions at the [Getting Started](https://www.raspberrypi.org/documentation/computers/getting-started.html) page at [raspberrypi.org](https://raspberrypi.org/) to install a clean OS image onto a MicroSD card then following the instructions below to deploy the software with Ansible.  Once the software is installed one can use the MicroSD card as is or copy it to create an archival system image.
+
 ### Deploying with Ansible
 
 The [Ansible](http://www.ansible.com) playbook in the `deploy_ansible` directory can be used to install the programs onto a new Raspberry Pi.  The details of their integration and operation on the Pi are described in the following section.
