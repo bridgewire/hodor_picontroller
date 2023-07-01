@@ -1,5 +1,13 @@
 # hodor_picontroller
 
+Ralph Santos
+2023-03-30
+
+This repository was created to support the project of rebuilding and
+updating BridgeWire's door controller circa 2018 when the controller
+suffered hardware problems and the original developer was no longer
+available.
+
 This repository contains code and support documents for Bridgewire's Raspberry Pi-based door controller.  There are many like it [see below](#prior-art), but this one is Bridgewire's.  The materials below are related to an update of the controller providing access to Bridgewire's shop, based on an original design from a previous member.  This repository represents a proposed update both for the door's functionality and an enhancement of the controller's design documentation, including a bill of materials along with assembly and test instructions.  These materials are provided so that future maintainers may have resources to more easily maintain and extend the controller.
 
 ## Overview of Contents
